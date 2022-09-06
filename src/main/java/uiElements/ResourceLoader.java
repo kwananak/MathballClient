@@ -1,6 +1,5 @@
 package uiElements;
 
-
 import java.io.InputStream;
 
 public class ResourceLoader {
@@ -12,4 +11,5 @@ public class ResourceLoader {
 		}
 		return input;
 	}
+	
 }

@@ -1,10 +1,10 @@
 package client;
 
-
 import java.awt.Graphics2D;
 import uiElements.PlayerClient;
 
 public class TeamClient {
+	
 	Panel panel;
 	String sprite;
 	
@@ -37,4 +37,5 @@ public class TeamClient {
 			player.returnBench();
 		}	
 	}
+	
 }

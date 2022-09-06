@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import client.Panel;
 
 public class Keyboard{
+	
 	private boolean keyOn = false;
 	BufferedImage board;
 	Panel panel;
@@ -124,4 +125,5 @@ public class Keyboard{
 	public void setKeyOn(boolean keyOn) {
 		this.keyOn = keyOn;
 	}
+	
 }

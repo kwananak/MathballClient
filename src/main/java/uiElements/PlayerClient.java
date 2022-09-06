@@ -1,17 +1,14 @@
 package uiElements;
 
-
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.imageio.ImageIO;
 import client.Panel;
 
 public class PlayerClient {
+	
 	int Velocity = 3;
 	int[] coords = new int[2];
 	private int[] benchSpot = new int[2];
@@ -20,7 +17,6 @@ public class PlayerClient {
 	boolean field, home, onBase, bench, running = false;
 	int base = 0;
 	BufferedImage sprite;
-	
 	
 	public PlayerClient(Panel panel, String str, int x, int y) {
 		this.panel = panel;

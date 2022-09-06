@@ -1,6 +1,5 @@
 package uiElements;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -11,6 +10,7 @@ import javax.imageio.ImageIO;
 import client.Panel;
 
 public class Umpire {
+	
 	int Velocity = 3;
 	int[] coords = {0,0};
 	int[] benchSpot = {0,0};
@@ -43,4 +43,5 @@ public class Umpire {
 	public void setTalk(String str) {
 		talk = str;
 	}
+	
 }

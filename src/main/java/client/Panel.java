@@ -1,12 +1,8 @@
 package client;
 
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -20,8 +16,8 @@ public class Panel extends JPanel implements Runnable{
 	
 	private static final long serialVersionUID = 1L;
 	BufferedImage background;
-	ArrayList<TeamClient> teams = new ArrayList<TeamClient>(Arrays.asList(new TeamClient(this, "sprites/redSprite.png", 9, 150), new TeamClient(this, "sprites/blueSprite.png", 630, 150)));
-	BasesClient bases = new BasesClient(teams);
+	TeamClient[] teams = {new TeamClient(this, "sprites/redSprite.png", 9, 150), new TeamClient(this, "sprites/blueSprite.png", 630, 150)};
+	BasesClient bases = new BasesClient();
 	Umpire umpire = new Umpire(this, "sprites/umpiSprite.png", 560, 180);
 	TeamClient teamField = null;
 	TeamClient teamBat = null;
@@ -83,8 +79,8 @@ public class Panel extends JPanel implements Runnable{
 		g2D.drawImage(background, 0, 0, null);		
 
 		umpire.draw(g2D);
-		teams.get(0).drawTeam(g2D);
-		teams.get(1).drawTeam(g2D);
+		teams[0].drawTeam(g2D);
+		teams[1].drawTeam(g2D);
 		
 		jumbotron.draw(g2D);
 		keyboard.draw(g2D);
@@ -94,11 +90,11 @@ public class Panel extends JPanel implements Runnable{
 		batter = 0;
 		
 		if (str.equals("top")) {
-			teamField = teams.get(1);
-			teamBat = teams.get(0);
+			teamField = teams[1];
+			teamBat = teams[0];
 		} else {
-			teamField = teams.get(0);
-			teamBat = teams.get(1);
+			teamField = teams[0];
+			teamBat = teams[1];
 		}
 	
 		teamField.players[0].setDestination(bases.mountCoords);
@@ -157,4 +153,5 @@ public class Panel extends JPanel implements Runnable{
 			team.returnBench();
 		}
 	}
+	
 }

@@ -22,7 +22,7 @@ public class Panel extends JPanel implements Runnable{
 	BufferedImage background;
 	ArrayList<TeamClient> teams = new ArrayList<TeamClient>(Arrays.asList(new TeamClient(this, "sprites/redSprite.png", 9, 150), new TeamClient(this, "sprites/blueSprite.png", 630, 150)));
 	BasesClient bases = new BasesClient(teams);
-	Umpire umpire = new Umpire(this, "sprites/umpiSprite.png", 530, 180);
+	Umpire umpire = new Umpire(this, "sprites/umpiSprite.png", 560, 180);
 	TeamClient teamField = null;
 	TeamClient teamBat = null;
 	int batter = 0;

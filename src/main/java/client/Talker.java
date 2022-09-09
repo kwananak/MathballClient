@@ -10,11 +10,13 @@ public class Talker extends Thread {
 	private Socket server;
 	private BufferedReader in;
 	private Panel panel;
+	private AudioPlayer audioPlayer;
 	
-	public Talker(Socket s, Panel panel) throws IOException {
+	public Talker(Socket s, Panel panel, AudioPlayer ap) throws IOException {
 		this.panel = panel;
 		server = s; 
 		in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+		audioPlayer = ap;
 	}
 
 	public void run() {
@@ -38,6 +40,7 @@ public class Talker extends Thread {
 							panel.umpire.setTalk(" ");
 							break;
 						case "cycleBases":
+							audioPlayer.playHit();
 							panel.cycleBases(arrResp[2]);
 							panel.jumbotron.setMainDisplay(arrResp[2]);
 							break;
@@ -55,6 +58,7 @@ public class Talker extends Thread {
 							panel.umpire.setTalk(arrResp[2]);
 							break;
 						case "pitch":
+							audioPlayer.playPitch();
 							panel.umpire.setTalk(arrResp[2]);
 							sender(server, arrResp[2]);
 							break;

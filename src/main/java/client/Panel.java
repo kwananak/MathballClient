@@ -24,6 +24,7 @@ public class Panel extends JPanel implements Runnable{
 	int batter = 0;
 	Jumbotron jumbotron = new Jumbotron(this);
 	Keyboard keyboard = new Keyboard(this);
+	AudioPlayer audioPlayer;
 	
 	final int PANEL_WIDTH = 1000;
 	final int PANEL_HEIGHT = 800;
@@ -31,13 +32,15 @@ public class Panel extends JPanel implements Runnable{
 	
 	Thread gameThread;
 	
-	public Panel(){
+	public Panel(AudioPlayer ap){
 		this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.setDoubleBuffered(true);
+		audioPlayer = ap;
 	}
 	
 	public void startUIThread() {
 		gameThread = new Thread(this);
+		audioPlayer.playTheme();
 		gameThread.start();
 	}
 
@@ -52,6 +55,8 @@ public class Panel extends JPanel implements Runnable{
 		double delta = 0;
 		long lastTime = System.nanoTime();
 		long currentTime;
+		
+		
 		
 		while(gameThread != null) {			
 			currentTime = System.nanoTime();			
@@ -97,6 +102,7 @@ public class Panel extends JPanel implements Runnable{
 			teamBat = teams[1];
 		}
 	
+		audioPlayer.playCrowd();
 		teamField.players[0].setDestination(bases.mountCoords);
 		teamField.players[1].setDestination(bases.homeCoordsField);
 		teamField.players[2].setDestination(bases.firstCoordsField);

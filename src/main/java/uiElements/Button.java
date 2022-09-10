@@ -11,13 +11,14 @@ class Button extends JPanel implements MouseListener{
 
 	private static final long serialVersionUID = 1L;
 	Panel panel;
-	Keyboard keyboard;
+	Keyboards keyboard;
 	String buttonID;
 	
-	Button(Panel p, Keyboard k, String str) {
+	Button(Panel p, Keyboards k, String str, int x, int y, int z, int zz) {
 		panel = p;
 		keyboard = k;
 		buttonID = str;
+		this.setBounds(x, y, z, zz);
 		this.setDoubleBuffered(true);
 		this.addMouseListener(this);
 		this.setOpaque(false);

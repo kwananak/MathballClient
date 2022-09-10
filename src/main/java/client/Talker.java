@@ -29,7 +29,11 @@ public class Talker extends Thread {
 					String[] arrResp = serverResponse.split(":");
 					switch (arrResp[1]) {
 						case "sender": 
-							sender(server, arrResp[2]); 
+							sender(server); 
+							break;
+						case "inningSender":
+							panel.umpire.setTalk(arrResp[2]);
+							inningSender(server);
 							break;
 						case "inningStart": 
 							panel.inningStart(arrResp[2]); 
@@ -60,7 +64,7 @@ public class Talker extends Thread {
 						case "pitch":
 							audioPlayer.playPitch();
 							panel.umpire.setTalk(arrResp[2]);
-							sender(server, arrResp[2]);
+							sender(server);
 							break;
 						case "team":
 							panel.keyboard.setColor(arrResp[2]);
@@ -85,7 +89,30 @@ public class Talker extends Thread {
 		}
 	}		
 
-	private void sender(Socket s, String str) {
+	private void inningSender(Socket s) {
+		panel.inningKeyboard.flipKeyOn();
+		while (true) {
+			try {Thread.sleep(1);} catch (InterruptedException e) {e.printStackTrace();}
+			if (!panel.inningKeyboard.getStoredAnswer().equals("")) {
+				break;
+			}
+		}
+		try {
+			Socket sendSock = s;
+			PrintWriter out = new PrintWriter(sendSock.getOutputStream(), true);
+			out.println(panel.inningKeyboard.getStoredAnswer());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		while (true)
+			if (panel.inningKeyboard.isKeyOn()) {
+				panel.inningKeyboard.flipKeyOn();
+				break;
+			}
+		panel.inningKeyboard.clearStoredAnswer();
+	}
+	
+	private void sender(Socket s) {
 		panel.keyboard.flipKeyOn();
 		while (true) {
 			try {Thread.sleep(1);} catch (InterruptedException e) {e.printStackTrace();}

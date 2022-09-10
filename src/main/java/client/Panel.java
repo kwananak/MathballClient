@@ -6,11 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import uiElements.Jumbotron;
-import uiElements.Keyboard;
-import uiElements.PlayerClient;
-import uiElements.ResourceLoader;
-import uiElements.Umpire;
+import uiElements.*;
 
 public class Panel extends JPanel implements Runnable{
 	
@@ -24,6 +20,7 @@ public class Panel extends JPanel implements Runnable{
 	int batter = 0;
 	Jumbotron jumbotron = new Jumbotron(this);
 	Keyboard keyboard = new Keyboard(this);
+	InningKeyboard inningKeyboard = new InningKeyboard(this);
 	AudioPlayer audioPlayer;
 	
 	final int PANEL_WIDTH = 1000;
@@ -56,7 +53,7 @@ public class Panel extends JPanel implements Runnable{
 		long lastTime = System.nanoTime();
 		long currentTime;
 		
-		
+		inningKeyboard.setButtons();
 		
 		while(gameThread != null) {			
 			currentTime = System.nanoTime();			
@@ -89,6 +86,7 @@ public class Panel extends JPanel implements Runnable{
 		
 		jumbotron.draw(g2D);
 		keyboard.draw(g2D);
+		inningKeyboard.draw(g2D);
 	}
 	
 	public void inningStart(String str) {	
@@ -128,6 +126,7 @@ public class Panel extends JPanel implements Runnable{
 					switch (player.getBase()) {
 						case 5:
 							player.setDestination(bases.homeCoordsBat);
+							audioPlayer.playCrowd();
 							player.setDestination(player.getBenchSpot());
 							player.setBase(0);
 							break;

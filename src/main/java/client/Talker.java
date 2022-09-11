@@ -1,16 +1,23 @@
 package client;
 
+import java.awt.Point;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import uiElements.InningKeyboard;
+import uiElements.AnswerKeyboard;
+import uiElements.Keyboard;
+
 public class Talker extends Thread {
 	
-	private static ArrayList<String> inputLog = new ArrayList<>();
+	private ArrayList<String> inputLog = new ArrayList<>();
 	private Socket server;
 	private BufferedReader in;
 	private Panel panel;
 	private AudioPlayer audioPlayer;
+	private boolean team;
+	private Point keysCoords;
 	
 	public Talker(Socket s, Panel panel, AudioPlayer ap) throws IOException {
 		this.panel = panel;
@@ -29,11 +36,11 @@ public class Talker extends Thread {
 					String[] arrResp = serverResponse.split(":");
 					switch (arrResp[1]) {
 						case "sender": 
-							sender(server); 
+							answerSender(); 
 							break;
 						case "inningSender":
 							panel.umpire.setTalk(arrResp[2]);
-							inningSender(server);
+							inningSender();
 							break;
 						case "inningStart": 
 							panel.inningStart(arrResp[2]); 
@@ -64,10 +71,16 @@ public class Talker extends Thread {
 						case "pitch":
 							audioPlayer.playPitch();
 							panel.umpire.setTalk(arrResp[2]);
-							sender(server);
+							answerSender();
 							break;
 						case "team":
-							panel.keyboard.setColor(arrResp[2]);
+							if (arrResp[2].equals("true")) {
+								team = true;
+								keysCoords = new Point(270, 330);
+							} else {
+								team = false;
+								keysCoords = new Point(550, 330);
+							}
 							break;
 						case "startLoop":
 							panel.jumbotron.updateJumbotron(arrResp[2]);
@@ -89,50 +102,41 @@ public class Talker extends Thread {
 		}
 	}		
 
-	private void inningSender(Socket s) {
-		panel.inningKeyboard.flipKeyOn();
-		while (true) {
-			try {Thread.sleep(1);} catch (InterruptedException e) {e.printStackTrace();}
-			if (!panel.inningKeyboard.getStoredAnswer().equals("")) {
-				break;
-			}
-		}
-		try {
-			Socket sendSock = s;
-			PrintWriter out = new PrintWriter(sendSock.getOutputStream(), true);
-			out.println(panel.inningKeyboard.getStoredAnswer());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		while (true)
-			if (panel.inningKeyboard.isKeyOn()) {
-				panel.inningKeyboard.flipKeyOn();
-				break;
-			}
-		panel.inningKeyboard.clearStoredAnswer();
+	private void inningSender() {
+		InningKeyboard inningKeyboard = new InningKeyboard(panel);
+		inningKeyboard.setButtons(panel);
+		panel.drawables.add(inningKeyboard);
+		sender(inningKeyboard);
+		panel.drawables.remove(panel.drawables.size()-1);
+		inningKeyboard.removeButtons();
+		panel.remove(inningKeyboard);
 	}
 	
-	private void sender(Socket s) {
-		panel.keyboard.flipKeyOn();
+	private void answerSender() {
+		AnswerKeyboard answerKeyboard = new AnswerKeyboard(panel, keysCoords);
+		answerKeyboard.setColor(team);
+		panel.drawables.add(answerKeyboard);
+		sender(answerKeyboard);
+		panel.drawables.remove(panel.drawables.size()-1);
+		keysCoords.setLocation(answerKeyboard.getLocation());
+		answerKeyboard.removeButtons();
+		panel.remove(answerKeyboard);
+	}
+	
+	private void sender(Keyboard key) {
 		while (true) {
 			try {Thread.sleep(1);} catch (InterruptedException e) {e.printStackTrace();}
-			if (!panel.keyboard.getStoredAnswer().equals("")) {
+			if (!key.getStoredAnswer().equals("")) {
 				break;
 			}
 		}
 		try {
-			Socket sendSock = s;
+			Socket sendSock = server;
 			PrintWriter out = new PrintWriter(sendSock.getOutputStream(), true);
-			out.println(panel.keyboard.getStoredAnswer());
+			out.println(key.getStoredAnswer());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		while (true)
-			if (panel.keyboard.isKeyOn()) {
-				panel.keyboard.flipKeyOn();
-				break;
-			}
-		panel.keyboard.clearStoredAnswer();
 	}
 	
 }

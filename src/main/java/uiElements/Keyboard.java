@@ -1,95 +1,80 @@
 package uiElements;
 
-import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import client.Panel;
 
-public class Keyboard extends Keyboards {
-		
-	int[] coords = {0,230};
-	String[] answer = {"  ", "  ", "  ", "  ", "  "};
-	Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonC, buttonE;
+@SuppressWarnings("serial")
+public class Keyboard extends Drawable implements MouseListener {
 
-	public Keyboard(Panel p) {
-		super(p);
+	String storedAnswer = "";
+	boolean pressed = false;
+	Button[] buttons;
+	Point initMouse;
+	Point initCoords;
+	
+	public Keyboard(Panel panel, Point point) {
+		super(panel, point);
+		setDoubleBuffered(true);
+		addMouseListener(this);
+		setOpaque(false);
+		panel.add(this);
 	}
 
-	public void addInput(String str) {
-		if (str.equals("C")) {
-			answer[4] = answer[3];
-			answer[3] = answer[2];
-			answer[2] = answer[1];
-			answer[1] = answer[0];
-			answer[0] = "  ";
-		} else if (str.equals("E")) {
-			String answerString = "";
-			for (String digit: answer) {
-				if (!digit.equals("  ")) {
-					answerString += digit;
-				}
-			}
-			setStoredAnswer(answerString);
-			answer[0] = "  ";
-			answer[1] = "  ";
-			answer[2] = "  ";
-			answer[3] = "  ";
-			answer[4] = "  ";
-		} else {		
-			answer[0] = answer[1];
-			answer[1] = answer[2];
-			answer[2] = answer[3];
-			answer[3] = answer[4];
-			answer[4] = str;
-		}	
+	public void clearStoredAnswer() {
+		setStoredAnswer("");
 	}
-		
-	public void setColor(String str) {	
-		if(str.equals("true")) {
-			try {
-				board = ImageIO.read(ResourceLoader.load("sprites/redKey.png"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			coords[0] = 170;
-		} else {
-			try {
-				board = ImageIO.read(ResourceLoader.load("sprites/blueKey.png"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			coords[0] = 450;
-		} 
-		
-		button1 = new Button(panel,this,"1", coords[0] + 132, coords[1] + 156, 36, 36);
-		button2 = new Button(panel,this,"2", coords[0] + 174, coords[1] + 156, 36, 36);
-		button3 = new Button(panel,this,"3", coords[0] + 216, coords[1] + 156, 36, 36);
-		button4 = new Button(panel,this,"4", coords[0] + 132, coords[1] + 198, 36, 36);
-		button5 = new Button(panel,this,"5", coords[0] + 174, coords[1] + 198, 36, 36);
-		button6 = new Button(panel,this,"6", coords[0] + 216, coords[1] + 198, 36, 36);
-		button7 = new Button(panel,this,"7", coords[0] + 132, coords[1] + 240, 36, 36);
-		button8 = new Button(panel,this,"8", coords[0] + 174, coords[1] + 240, 36, 36);
-		button9 = new Button(panel,this,"9", coords[0] + 216, coords[1] + 240, 36, 36);
-		button0 = new Button(panel,this,"0", coords[0] + 132, coords[1] + 282, 36, 36);
-		buttonC = new Button(panel,this,"C", coords[0] + 174, coords[1] + 282, 36, 36);
-		buttonE = new Button(panel,this,"E", coords[0] + 216, coords[1] + 282, 36, 36);
+
+	public String getStoredAnswer() {
+		return storedAnswer ;
+	}
+
+	public void setStoredAnswer(String storedAnswer) {
+		this.storedAnswer = storedAnswer;
 	}
 	
-	public void draw(Graphics2D g2D) {
-		if (keyOn) {
-			String answerString = "";
-			for (String digit: answer) {
-				answerString += digit;
-			}	
-			g2D.drawImage(board, coords[0], coords[1], null);
-			g2D.setFont(new Font("Fixedsys",Font.BOLD, 36));
-			g2D.drawString(answerString, coords[0] + 142, coords[1] + 142);
+	@Override
+	public void draw(Graphics2D g2D) {		
+		if (pressed) {
+			setLocation((int) (initCoords.getX() + MouseInfo.getPointerInfo().getLocation().getX() - initMouse.getX()), (int) (initCoords.getY() + MouseInfo.getPointerInfo().getLocation().getY() - initMouse.getY()));
+		}
+		super.draw(g2D);
+	}
+
+	public void addInput(String buttonID) {}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {		
+		initMouse = new Point(MouseInfo.getPointerInfo().getLocation());
+		initCoords = getLocation();
+		pressed = true;
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		pressed = false;
+		for (Button button: buttons) {
+			button.resetButton();
 		}
 	}
 
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+	
+	public void removeButtons() {
+		for (Button button: buttons) {
+			panel.remove(button);
+		}
+	}
+	
 }

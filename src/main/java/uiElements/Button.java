@@ -1,5 +1,6 @@
 package uiElements;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -7,40 +8,37 @@ import javax.swing.JPanel;
 
 import client.Panel;
 
-class Button extends JPanel implements MouseListener{
+@SuppressWarnings("serial")
+public class Button extends JPanel implements MouseListener{
 
-	private static final long serialVersionUID = 1L;
-	Panel panel;
-	Keyboards keyboard;
+	Keyboard keyboard;
 	String buttonID;
+	Point position;
 	
-	Button(Panel p, Keyboards k, String str, int x, int y, int z, int zz) {
-		panel = p;
-		keyboard = k;
-		buttonID = str;
-		this.setBounds(x, y, z, zz);
-		this.setDoubleBuffered(true);
-		this.addMouseListener(this);
-		this.setOpaque(false);
-		this.panel.add(this);
+	public Button(Panel panel, Keyboard keyboard, String buttonID, int x, int y, int width, int height) {
+		this.keyboard = keyboard;
+		this.buttonID = buttonID;
+		position = new Point(x, y);
+		setBounds(keyboard.getX() + (int) position.getX(), keyboard.getY() + (int) position.getY(), width, height);
+		addMouseListener(this);
+		setOpaque(false);
+		panel.add(this);
 	}
 	
-	
-	
-	public void mouseClicked(MouseEvent e) {			
+	public void resetButton() {
+		setBounds(keyboard.getX() + (int) position.getX(), keyboard.getY() + (int) position.getY(), (int) getBounds().getWidth(), (int) getBounds().getHeight());
 	}
+	
+	public void mouseClicked(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
-		keyboard.addInput(buttonID);		
+		keyboard.addInput(buttonID);
 	}
 
-	public void mouseReleased(MouseEvent e) {		
-	}
+	public void mouseReleased(MouseEvent e) {}
 
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) {}
 
-	public void mouseExited(MouseEvent e) {		
-	}
+	public void mouseExited(MouseEvent e) {}
 
 }

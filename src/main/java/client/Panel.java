@@ -3,25 +3,27 @@ package client;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import uiElements.*;
 
+@SuppressWarnings("serial")
 public class Panel extends JPanel implements Runnable{
 	
-	private static final long serialVersionUID = 1L;
 	BufferedImage background;
-	TeamClient[] teams = {new TeamClient(this, "sprites/redSprite.png", 9, 150), new TeamClient(this, "sprites/blueSprite.png", 630, 150)};
-	BasesClient bases = new BasesClient();
-	Umpire umpire = new Umpire(this, "sprites/umpiSprite.png", 560, 180);
-	TeamClient teamField = null;
-	TeamClient teamBat = null;
+	Team[] teams = {new Team(this, "sprites/redSprite.png", 9, 150), new Team(this, "sprites/blueSprite.png", 639, 150)};
+	Bases bases = new Bases();
+	Umpire umpire = new Umpire(this, new Point(560, 180), "sprites/umpiSprite.png");
+	Team teamField = null;
+	Team teamBat = null;
 	int batter = 0;
 	Jumbotron jumbotron = new Jumbotron(this);
-	Keyboard keyboard = new Keyboard(this);
-	InningKeyboard inningKeyboard = new InningKeyboard(this);
 	AudioPlayer audioPlayer;
+	
+	ArrayList<Drawable> drawables = new ArrayList<>();
 	
 	final int PANEL_WIDTH = 1000;
 	final int PANEL_HEIGHT = 800;
@@ -38,6 +40,12 @@ public class Panel extends JPanel implements Runnable{
 	public void startUIThread() {
 		gameThread = new Thread(this);
 		audioPlayer.playTheme();
+		drawables.add(umpire);
+		for (Team team: teams) {
+			for (Player player: team.players) {
+				drawables.add(player);
+			}
+		}
 		gameThread.start();
 	}
 
@@ -53,8 +61,6 @@ public class Panel extends JPanel implements Runnable{
 		long lastTime = System.nanoTime();
 		long currentTime;
 		
-		inningKeyboard.setButtons();
-		
 		while(gameThread != null) {			
 			currentTime = System.nanoTime();			
 			delta += (currentTime - lastTime) / drawInterval;			
@@ -69,7 +75,7 @@ public class Panel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-		for (TeamClient team: teams) {
+		for (Team team: teams) {
 			team.moveTeam();
 		}
 	}
@@ -80,13 +86,10 @@ public class Panel extends JPanel implements Runnable{
 		
 		g2D.drawImage(background, 0, 0, null);		
 
-		umpire.draw(g2D);
-		teams[0].drawTeam(g2D);
-		teams[1].drawTeam(g2D);
-		
 		jumbotron.draw(g2D);
-		keyboard.draw(g2D);
-		inningKeyboard.draw(g2D);
+		for (Drawable o: drawables) {
+			o.draw(g2D);
+		}		
 	}
 	
 	public void inningStart(String str) {	
@@ -120,15 +123,14 @@ public class Panel extends JPanel implements Runnable{
 	public void cycleBases(String str) {
 		int a = Integer.valueOf(str);
 		for (int i = 0; i < a; i++) {
-			for (PlayerClient player: teamBat.players) {
+			for (Player player: teamBat.players) {
 				if (player.getBase() > 0) {
 					player.setBase(player.getBase()+1);
 					switch (player.getBase()) {
 						case 5:
 							player.setDestination(bases.homeCoordsBat);
 							audioPlayer.playCrowd();
-							player.setDestination(player.getBenchSpot());
-							player.setBase(0);
+							player.returnBench();;
 							break;
 						case 4:
 							player.setDestination(bases.thirdCoordsBat);
@@ -146,15 +148,15 @@ public class Panel extends JPanel implements Runnable{
 	}
 	
 	public void clearBatter() {
-		for (PlayerClient player: teamBat.players) {
+		for (Player player: teamBat.players) {
 			if (player.getBase() == 1) {
-				player.setDestination(player.getBenchSpot());
+				player.returnBench();
 			}
 		}
 	}
 	
 	public void returnBench() {
-		for (TeamClient team: teams) {
+		for (Team team: teams) {
 			team.returnBench();
 		}
 	}

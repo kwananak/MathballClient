@@ -1,6 +1,6 @@
 package client;
 
-public class BasesClient {
+public class Bases {
 
 	final int[] homeCoords = {441, 180};
 	final int[] firstCoords = {156, 339};

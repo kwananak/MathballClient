@@ -32,7 +32,7 @@ public class Button extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
-		keyboard.addInput(buttonID);
+		keyboard.buttonPressed(buttonID);
 	}
 
 	public void mouseReleased(MouseEvent e) {}

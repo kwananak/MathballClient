@@ -3,6 +3,8 @@ package uiElements.keyboards;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -37,14 +39,35 @@ public class AnswerKeyboard extends Keyboard {
 		setBounds(getX(), getY(), 140, 10);
 	}
 	
-	public void addInput(String str) {
+	@Override
+	public void buttonPressed(String str) {
 		if (str.equals("C")) {
-			answer[4] = answer[3];
-			answer[3] = answer[2];
-			answer[2] = answer[1];
-			answer[1] = answer[0];
-			answer[0] = "  ";
+			deleteInput();
 		} else if (str.equals("E")) {
+			confirmInput();
+		} else {		
+			addInput(str);
+		}	
+	}
+	
+	public void addInput(String str) {
+		answer[0] = answer[1];
+		answer[1] = answer[2];
+		answer[2] = answer[3];
+		answer[3] = answer[4];
+		answer[4] = str;
+	}
+	
+	public void deleteInput() {
+		answer[4] = answer[3];
+		answer[3] = answer[2];
+		answer[2] = answer[1];
+		answer[1] = answer[0];
+		answer[0] = "  ";
+	}
+	
+	public void confirmInput() {
+		if (!answer[4].equals("  ")) {
 			String answerString = "";
 			for (String digit: answer) {
 				if (!digit.equals("  ")) {
@@ -57,13 +80,7 @@ public class AnswerKeyboard extends Keyboard {
 			answer[2] = "  ";
 			answer[3] = "  ";
 			answer[4] = "  ";
-		} else {		
-			answer[0] = answer[1];
-			answer[1] = answer[2];
-			answer[2] = answer[3];
-			answer[3] = answer[4];
-			answer[4] = str;
-		}	
+		}
 	}
 	
 	@Override
@@ -76,5 +93,27 @@ public class AnswerKeyboard extends Keyboard {
 		g2D.setFont(new Font("Fixedsys",Font.BOLD, 36));
 		g2D.drawString(answerString, getX() + 20, getY() + 46);		
 	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		char c = e.getKeyChar();
+		if (Character.isDigit(c)) {
+			String nu = "";
+			nu += c;
+			addInput(nu);
+		}
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE) {
+			deleteInput();
+		} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			confirmInput();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
 
 }

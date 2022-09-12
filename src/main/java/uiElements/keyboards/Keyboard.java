@@ -3,6 +3,7 @@ package uiElements.keyboards;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import uiElements.Drawable;
 import uiElements.Panel;
 
 @SuppressWarnings("serial")
-public abstract class Keyboard extends Drawable implements MouseListener {
+public abstract class Keyboard extends Drawable implements MouseListener, KeyListener {
 
 	private String storedAnswer = "";
 	private boolean pressed = false;
@@ -23,19 +24,23 @@ public abstract class Keyboard extends Drawable implements MouseListener {
 		super(panel, point);
 		setDoubleBuffered(true);
 		addMouseListener(this);
+		addKeyListener(this);
 		setOpaque(false);
 		panel.add(this);
+		requestFocusInWindow();
 	}
 	
 	public Keyboard(Panel panel, Point point, String imagePath) throws IOException {
 		super(panel, point, imagePath);
 		setDoubleBuffered(true);
 		addMouseListener(this);
+		addKeyListener(this);
 		setOpaque(false);
 		panel.add(this);
+		requestFocusInWindow();
 	}
 
-	public void addInput(String buttonID) {
+	public void buttonPressed(String buttonID) {
 		setStoredAnswer(buttonID);
 	}
 

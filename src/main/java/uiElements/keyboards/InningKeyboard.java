@@ -1,6 +1,7 @@
 package uiElements.keyboards;
 
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import uiElements.Panel;
@@ -19,6 +20,22 @@ public class InningKeyboard extends Keyboard {
 		setBounds(getX(), getY(), 360, 10);
 	}
 
+	@Override
+	public void keyTyped(KeyEvent e) {
+		char c = e.getKeyChar();
+		if (Character.isDigit(c)) {
+			String nu = "";
+			nu += c;
+			if (Integer.valueOf(nu) > 0 && Integer.valueOf(nu) < 6) {
+				buttonPressed(nu);
+			}			
+		}
+	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
 	
 }

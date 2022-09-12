@@ -5,16 +5,18 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+
 import client.Panel;
 
 @SuppressWarnings("serial")
-public class Keyboard extends Drawable implements MouseListener {
+public abstract class Keyboard extends Drawable implements MouseListener {
 
-	String storedAnswer = "";
-	boolean pressed = false;
-	Button[] buttons;
-	Point initMouse;
-	Point initCoords;
+	private String storedAnswer = "";
+	private boolean pressed = false;
+	protected Button[] buttons;
+	private Point initMouse;
+	private Point initCoords;
 	
 	public Keyboard(Panel panel, Point point) {
 		super(panel, point);
@@ -23,9 +25,17 @@ public class Keyboard extends Drawable implements MouseListener {
 		setOpaque(false);
 		panel.add(this);
 	}
+	
+	public Keyboard(Panel panel, Point point, String imagePath) throws IOException {
+		super(panel, point, imagePath);
+		setDoubleBuffered(true);
+		addMouseListener(this);
+		setOpaque(false);
+		panel.add(this);
+	}
 
-	public void clearStoredAnswer() {
-		setStoredAnswer("");
+	public void addInput(String buttonID) {
+		setStoredAnswer(buttonID);
 	}
 
 	public String getStoredAnswer() {
@@ -34,6 +44,12 @@ public class Keyboard extends Drawable implements MouseListener {
 
 	public void setStoredAnswer(String storedAnswer) {
 		this.storedAnswer = storedAnswer;
+	}	
+	
+	public void removeButtons() {
+		for (Button button: buttons) {
+			panel.remove(button);
+		}
 	}
 	
 	@Override
@@ -43,8 +59,6 @@ public class Keyboard extends Drawable implements MouseListener {
 		}
 		super.draw(g2D);
 	}
-
-	public void addInput(String buttonID) {}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -66,15 +80,11 @@ public class Keyboard extends Drawable implements MouseListener {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {}
-	
-	public void removeButtons() {
-		for (Button button: buttons) {
-			panel.remove(button);
-		}
+	public void mouseExited(MouseEvent e) {
 	}
-	
+		
 }

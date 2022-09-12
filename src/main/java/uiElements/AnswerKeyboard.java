@@ -11,30 +11,15 @@ import client.Panel;
 @SuppressWarnings("serial")
 public class AnswerKeyboard extends Keyboard {
 
-	String[] answer = {"  ", "  ", "  ", "  ", "  "};
+	private String[] answer = {"  ", "  ", "  ", "  ", "  "};
 
-	public AnswerKeyboard(Panel panel, Point point) {
+	public AnswerKeyboard(Panel panel, Point point, boolean team) throws IOException {
 		super(panel, point);
-	}
-	
-	public void setColor(boolean team) {	
-		if(team) {
-			try {
-				sprite = ImageIO.read(ResourceLoader.load("sprites/redKey.png"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if(team) {			
+			sprite = ImageIO.read(ResourceLoader.load("sprites/redKey.png"));
 		} else {
-			try {
-				sprite = ImageIO.read(ResourceLoader.load("sprites/blueKey.png"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			sprite = ImageIO.read(ResourceLoader.load("sprites/blueKey.png"));
 		}
-		setButtons();
-	}
-		
-	public void setButtons() {
 		buttons = new Button[12];
 		buttons[0] = new Button(panel, this, "1", 12, 56, 36, 36);
 		buttons[1] = new Button(panel, this, "2", 54, 56, 36, 36);

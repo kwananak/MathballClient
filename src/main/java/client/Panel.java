@@ -13,36 +13,35 @@ import uiElements.*;
 @SuppressWarnings("serial")
 public class Panel extends JPanel implements Runnable{
 	
-	BufferedImage background;
-	Team[] teams = {new Team(this, "sprites/redSprite.png", 9, 150), new Team(this, "sprites/blueSprite.png", 639, 150)};
-	Bases bases = new Bases();
+	private final BufferedImage background;
+	private Team[] teams = {new Team(this, "sprites/redSprite.png", "sprites/redField.png", "sprites/redBat.png", "sprites/redCeleb.png", 9, 150), new Team(this, "sprites/blueSprite.png", "sprites/blueField.png", "sprites/blueBat.png", "sprites/blueCeleb.png", 639, 150)};
 	Umpire umpire = new Umpire(this, new Point(560, 180), "sprites/umpiSprite.png");
-	Team teamField = null;
-	Team teamBat = null;
-	int batter = 0;
-	Jumbotron jumbotron = new Jumbotron(this);
-	AudioPlayer audioPlayer;
+	private Team teamField, teamBat;
+	Jumbotron jumbotron = new Jumbotron();
+	private AudioPlayer audioPlayer;
 	
 	ArrayList<Drawable> drawables = new ArrayList<>();
 	
-	final int PANEL_WIDTH = 1000;
-	final int PANEL_HEIGHT = 800;
-	int FPS = 60;
+	private final int PANEL_WIDTH = 1000;
+	private final int PANEL_HEIGHT = 800;
+	private int FPS = 60;
 	
-	Thread gameThread;
+	private Thread gameThread;
 	
-	public Panel(AudioPlayer ap){
+	public Panel(AudioPlayer audioPlayer) throws IOException{
 		this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.setDoubleBuffered(true);
-		audioPlayer = ap;
+		this.audioPlayer = audioPlayer;
+		background = ImageIO.read(ResourceLoader.load("sprites/back.png"));
 	}
 	
 	public void startUIThread() {
 		gameThread = new Thread(this);
 		audioPlayer.playTheme();
+		drawables.add(jumbotron);
 		drawables.add(umpire);
 		for (Team team: teams) {
-			for (Player player: team.players) {
+			for (Player player: team.getAllPlayers()) {
 				drawables.add(player);
 			}
 		}
@@ -51,11 +50,6 @@ public class Panel extends JPanel implements Runnable{
 
 	@Override
 	public void run() {
-		try {
-			background = ImageIO.read(ResourceLoader.load("sprites/back.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		double drawInterval = 1000000000/FPS;
 		double delta = 0;
 		long lastTime = System.nanoTime();
@@ -86,14 +80,12 @@ public class Panel extends JPanel implements Runnable{
 		
 		g2D.drawImage(background, 0, 0, null);		
 
-		jumbotron.draw(g2D);
-		for (Drawable o: drawables) {
-			o.draw(g2D);
+		for (Drawable drawable: drawables) {
+			drawable.draw(g2D);
 		}		
 	}
 	
-	public void inningStart(String str) {	
-		batter = 0;
+	public void inningStart(String str) {
 		
 		if (str.equals("top")) {
 			teamField = teams[1];
@@ -104,42 +96,44 @@ public class Panel extends JPanel implements Runnable{
 		}
 	
 		audioPlayer.playCrowd();
-		teamField.players[0].setDestination(bases.mountCoords);
-		teamField.players[1].setDestination(bases.homeCoordsField);
-		teamField.players[2].setDestination(bases.firstCoordsField);
-		teamField.players[3].setDestination(bases.secondCoordsField);
-		teamField.players[4].setDestination(bases.thirdCoordsField);
+		for (Player player: teamField.getAllPlayers()) {
+			player.setFieldSprite();
+		}
+		teamField.getPlayer(0).setDestination(Bases.mountCoords);
+		teamField.getPlayer(1).setDestination(Bases.homeCoordsField);
+		teamField.getPlayer(2).setDestination(Bases.firstCoordsField);
+		teamField.getPlayer(3).setDestination(Bases.secondCoordsField);
+		teamField.getPlayer(4).setDestination(Bases.thirdCoordsField);
 	}
 	
 	public void turnStart() {	
-		teamBat.players[batter].setDestination(bases.homeCoordsBat);
-		teamBat.players[batter].setBase(1);
-		batter++;
-		if (batter == 5) {
-			batter = 0;
-		}
+		teamBat.getPlayer(teamBat.getBatter()).setDestination(Bases.homeCoordsBat);
+		teamBat.getPlayer(teamBat.getBatter()).setBase(1);
+		teamBat.getPlayer(teamBat.getBatter()).setBatSprite();
 	}
 
 	public void cycleBases(String str) {
 		int a = Integer.valueOf(str);
 		for (int i = 0; i < a; i++) {
-			for (Player player: teamBat.players) {
+			for (Player player: teamBat.getAllPlayers()) {
 				if (player.getBase() > 0) {
 					player.setBase(player.getBase()+1);
 					switch (player.getBase()) {
 						case 5:
-							player.setDestination(bases.homeCoordsBat);
+							player.setDestination(Bases.homeCoordsBat);
 							audioPlayer.playCrowd();
 							player.returnBench();;
 							break;
 						case 4:
-							player.setDestination(bases.thirdCoordsBat);
+							player.setDestination(Bases.thirdCoordsBat);
 							break;
 						case 3:
-							player.setDestination(bases.secondCoordsBat);
+							player.setDestination(Bases.secondCoordsBat);
 							break;
 						case 2:
-							player.setDestination(bases.firstCoordsBat);
+							player.setDestination(Bases.firstCoordsBat);
+							player.setIdleSprite();
+							teamBat.cycleBatter();
 							break;
 					}
 				}
@@ -148,11 +142,8 @@ public class Panel extends JPanel implements Runnable{
 	}
 	
 	public void clearBatter() {
-		for (Player player: teamBat.players) {
-			if (player.getBase() == 1) {
-				player.returnBench();
-			}
-		}
+		teamBat.getPlayer(teamBat.getBatter()).returnBench();
+		teamBat.cycleBatter();
 	}
 	
 	public void returnBench() {

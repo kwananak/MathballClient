@@ -11,9 +11,9 @@ import client.Panel;
 @SuppressWarnings("serial")
 public class Button extends JPanel implements MouseListener{
 
-	Keyboard keyboard;
-	String buttonID;
-	Point position;
+	private final Keyboard keyboard;
+	private final String buttonID;
+	private final Point position;
 	
 	public Button(Panel panel, Keyboard keyboard, String buttonID, int x, int y, int width, int height) {
 		this.keyboard = keyboard;

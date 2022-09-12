@@ -1,21 +1,23 @@
 package client;
 
-public class Bases {
+import java.awt.Point;
 
-	final int[] homeCoords = {441, 180};
-	final int[] firstCoords = {156, 339};
-	final int[] secondCoords = {429, 540};
-	final int[] thirdCoords = {699, 360};
-	final int[] mountCoords = {441, 360};
+public abstract class Bases {
+
+	final static Point homeCoords = new Point(441, 180);
+	final static Point firstCoords = new Point(156, 339);
+	final static Point secondCoords = new Point(429, 540);
+	final static Point thirdCoords = new Point(699, 360);
+	final static Point mountCoords = new Point(441, 360);
 	
-	final int[] homeCoordsField = {homeCoords[0], homeCoords[1] - 30};
-	final int[] firstCoordsField = {firstCoords[0] - 60, firstCoords[1]};
-	final int[] secondCoordsField = {secondCoords[0] - 60, secondCoords[1]};
-	final int[] thirdCoordsField = {thirdCoords[0] - 60, thirdCoords[1]};
+	final static Point homeCoordsField = new Point((int) homeCoords.getX(), (int) homeCoords.getY() - 30);
+	final static Point firstCoordsField = new Point((int) firstCoords.getX() - 60, (int) firstCoords.getY());
+	final static Point secondCoordsField = new Point((int) secondCoords.getX() - 60, (int) secondCoords.getY());
+	final static Point thirdCoordsField = new Point((int) thirdCoords.getX() - 60, (int) thirdCoords.getY());
 	
-	final int[] homeCoordsBat = {homeCoords[0] + 60, homeCoords[1]};
-	final int[] firstCoordsBat = {firstCoords[0] + 60, firstCoords[1]};
-	final int[] secondCoordsBat = {secondCoords[0] + 60, secondCoords[1]};
-	final int[] thirdCoordsBat = {thirdCoords[0] + 60, thirdCoords[1]};
+	final static Point homeCoordsBat = new Point((int) homeCoords.getX() - 60, (int) homeCoords.getY() + 9);
+	final static Point firstCoordsBat = new Point((int) firstCoords.getX() + 60, (int) firstCoords.getY());
+	final static Point secondCoordsBat = new Point((int) secondCoords.getX() + 60, (int) secondCoords.getY());
+	final static Point thirdCoordsBat = new Point((int) thirdCoords.getX() + 60, (int) thirdCoords.getY());
 
 }

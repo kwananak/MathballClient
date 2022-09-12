@@ -13,26 +13,30 @@ import client.Panel;
 @SuppressWarnings("serial")
 public class Drawable extends JPanel {
 
-	Panel panel;
-	BufferedImage sprite;
+	protected Panel panel;
+	protected BufferedImage sprite;
+	
+	public Drawable() {}
 	
 	public Drawable(Panel panel, Point point) {
 		this.panel = panel;
 		this.setLocation(point);
+		setDoubleBuffered(true);
 	}
 	
-	public Drawable(Panel panel, Point point, String imagePath) {
+	public Drawable(Panel panel, Point point, String imagePath) throws IOException {
 		this.panel = panel;
 		this.setLocation(point);
-		try {
-			this.sprite = ImageIO.read(ResourceLoader.load(imagePath));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.sprite = ImageIO.read(ResourceLoader.load(imagePath));
+		setDoubleBuffered(true);
 	}
 	
 	public void draw(Graphics2D g2D) {
 		g2D.drawImage(sprite, getX(), getY(), null);
+	}
+	
+	public void setSprite(BufferedImage newSprite) {
+		sprite = newSprite;
 	}
 	
 }

@@ -7,23 +7,24 @@ import java.util.ArrayList;
 
 import uiElements.InningKeyboard;
 import uiElements.AnswerKeyboard;
-import uiElements.Keyboard;
+import uiElements.PitchKeyboard;
 
 public class Talker extends Thread {
 	
 	private ArrayList<String> inputLog = new ArrayList<>();
-	private Socket server;
-	private BufferedReader in;
-	private Panel panel;
-	private AudioPlayer audioPlayer;
+	private final Socket socket;
+	private final BufferedReader in;
+	private final Panel panel;
+	private final AudioPlayer audioPlayer;
 	private boolean team;
-	private Point keysCoords;
+	private Point answerKeysCoords;
+	private Point pitchKeysCoords = new Point(360, 430);
 	
-	public Talker(Socket s, Panel panel, AudioPlayer ap) throws IOException {
+	public Talker(Socket socket, Panel panel, AudioPlayer audioPlayer) throws IOException {
 		this.panel = panel;
-		server = s; 
-		in = new BufferedReader(new InputStreamReader(server.getInputStream()));
-		audioPlayer = ap;
+		this.socket = socket;
+		this.audioPlayer = audioPlayer; 
+		in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));		
 	}
 
 	public void run() {
@@ -36,11 +37,11 @@ public class Talker extends Thread {
 					String[] arrResp = serverResponse.split(":");
 					switch (arrResp[1]) {
 						case "sender": 
-							answerSender(); 
+							answerKeysCoords.setLocation(Sender.send(new AnswerKeyboard(panel, answerKeysCoords, team), socket, panel)); 
 							break;
 						case "inningSender":
 							panel.umpire.setTalk(arrResp[2]);
-							inningSender();
+							Sender.send(new InningKeyboard(panel), socket, panel);
 							break;
 						case "inningStart": 
 							panel.inningStart(arrResp[2]); 
@@ -71,15 +72,15 @@ public class Talker extends Thread {
 						case "pitch":
 							audioPlayer.playPitch();
 							panel.umpire.setTalk(arrResp[2]);
-							answerSender();
+							pitchKeysCoords.setLocation(Sender.send(new PitchKeyboard(panel, pitchKeysCoords), socket, panel));
 							break;
 						case "team":
 							if (arrResp[2].equals("true")) {
 								team = true;
-								keysCoords = new Point(270, 330);
+								answerKeysCoords = new Point(270, 330);
 							} else {
 								team = false;
-								keysCoords = new Point(550, 330);
+								answerKeysCoords = new Point(550, 330);
 							}
 							break;
 						case "startLoop":
@@ -101,42 +102,5 @@ public class Talker extends Thread {
 			}
 		}
 	}		
-
-	private void inningSender() {
-		InningKeyboard inningKeyboard = new InningKeyboard(panel);
-		inningKeyboard.setButtons(panel);
-		panel.drawables.add(inningKeyboard);
-		sender(inningKeyboard);
-		panel.drawables.remove(panel.drawables.size()-1);
-		inningKeyboard.removeButtons();
-		panel.remove(inningKeyboard);
-	}
-	
-	private void answerSender() {
-		AnswerKeyboard answerKeyboard = new AnswerKeyboard(panel, keysCoords);
-		answerKeyboard.setColor(team);
-		panel.drawables.add(answerKeyboard);
-		sender(answerKeyboard);
-		panel.drawables.remove(panel.drawables.size()-1);
-		keysCoords.setLocation(answerKeyboard.getLocation());
-		answerKeyboard.removeButtons();
-		panel.remove(answerKeyboard);
-	}
-	
-	private void sender(Keyboard key) {
-		while (true) {
-			try {Thread.sleep(1);} catch (InterruptedException e) {e.printStackTrace();}
-			if (!key.getStoredAnswer().equals("")) {
-				break;
-			}
-		}
-		try {
-			Socket sendSock = server;
-			PrintWriter out = new PrintWriter(sendSock.getOutputStream(), true);
-			out.println(key.getStoredAnswer());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 }

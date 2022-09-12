@@ -3,23 +3,19 @@ package uiElements;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
 
-import client.Panel;
+@SuppressWarnings("serial")
+public class Jumbotron extends Drawable {
 
-public class Jumbotron extends JPanel{
-
-	private static final long serialVersionUID = 1L;
-	String strikes, balls, outs, inning, topBot;
-	String fullJumbo = "true";
-	String score = "0 - 0"; 
-	String mainDisplay = "Mathball";
-	Panel panel;
+	private String strikes, balls, outs, inning, topBot;
+	private String fullJumbo = "true";
+	private String score = "0 - 0"; 
+	private String mainDisplay = "Mathball";
 	
-	public Jumbotron(Panel p) {
-		panel = p;
+	public Jumbotron() {
+		super();
 	}
-	
+
 	public void updateJumbotron(String str) {
 		String[] arrStr = str.split(",");
 		strikes = arrStr[0];
@@ -31,6 +27,25 @@ public class Jumbotron extends JPanel{
 		fullJumbo = arrStr[6];
 	}
 	
+	public void setMainDisplay(String str){
+		int i = Integer.valueOf(str);
+		switch (i) {
+			case 1:
+				mainDisplay = "Single!";
+				fullJumbo = "true";
+				break;
+			case 2:
+				mainDisplay = "DDouble!!";
+				fullJumbo = "true";
+				break;
+			case 3:
+				mainDisplay = "TTTriple!!!";
+				fullJumbo = "true";
+				break;
+		}
+	}
+	
+	@Override
 	public void draw(Graphics2D g2D) {
 		g2D.setPaint(Color.white);
 		
@@ -54,24 +69,6 @@ public class Jumbotron extends JPanel{
 				int[] y = {90, 100, 90};
 				g2D.fillPolygon(x, y, 3);
 			}			
-		}
-	}
-	
-	public void setMainDisplay(String str){
-		int i = Integer.valueOf(str);
-		switch (i) {
-			case 1:
-				mainDisplay = "Single!";
-				fullJumbo = "true";
-				break;
-			case 2:
-				mainDisplay = "DDouble!!";
-				fullJumbo = "true";
-				break;
-			case 3:
-				mainDisplay = "TTTriple!!!";
-				fullJumbo = "true";
-				break;
 		}
 	}
 	

@@ -61,4 +61,5 @@ public class Team {
 			player.setAnimationFlipper(true);
 		}
 	}
+	
 }

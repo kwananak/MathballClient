@@ -3,56 +3,52 @@ package uiElements.characters;
 public class PlayerAnimator {
 
 	private Player player;
-	private final int velocity = 3;
-	
-	int framesCount = 10;
-	int animCount = 9;
-	boolean animFlip = true;
-	
+	private final int velocity = 3;	
+	private int framesCount = 10;
+	private int animCount = 9;
+	private boolean animFlip = true;
 	
 	public PlayerAnimator(Player player) {
 		this.player = player;
 	}
 	
 	public void move() {
-		if (player.destinations.size() > 0) {
+		if (player.hasDestinations()) {
 			if (player.getBase() == 1) {
 				player.setBat();
 			}
-			if (player.getX() < player.destinations.get(0).getX() - velocity + 1) {
+			if (player.getX() < player.getNextDestination().getX() - velocity + 1) {
 				player.setLocation(player.getX() + velocity, player.getY());
 			}			
-			if (player.getX() > player.destinations.get(0).getX() + velocity - 1) {
+			if (player.getX() > player.getNextDestination().getX() + velocity - 1) {
 				player.setLocation(player.getX() - velocity, player.getY());
 			}			
-			if (player.getY() < player.destinations.get(0).getY() - velocity + 1) {
+			if (player.getY() < player.getNextDestination().getY() - velocity + 1) {
 				player.setLocation(player.getX(), player.getY() + velocity);
 			}			
-			if (player.getY() > player.destinations.get(0).getY() + velocity - 1) {
+			if (player.getY() > player.getNextDestination().getY() + velocity - 1) {
 				player.setLocation(player.getX(), player.getY() - velocity);
 			}
-			if (player.getLocation().equals(player.destinations.get(0))) {
-				player.destinations.remove(0);
+			if (player.getLocation().equals(player.getNextDestination())) {
+				player.arrived();
 			}
-		}
-		
+		}		
 	}
 
 	public void animate() {
 		if (animFlip) {
-			if (player.field) {
+			if (player.getField()) {
 				player.setCelebField();
 			} else {
 				player.setCeleb();
 			}
 		} else {
-			if (player.field) {
+			if (player.getField()) {
 				player.setField();
 			} else {
 				player.setIdle();
 			}
-		}
-			
+		}			
 		framesCount--;
 		if (framesCount == 0) {
 			framesCount = 10;
@@ -61,14 +57,13 @@ public class PlayerAnimator {
 			if (animCount == 0) {
 				animCount = 9;
 				player.setAnimationFlipper(false);
-				if (player.field) {
+				if (player.getField()) {
 					player.setField();
 				} else {
 					player.setIdle();
 				}
 			}
-		}
-
-		
+		}		
 	}
+	
 }

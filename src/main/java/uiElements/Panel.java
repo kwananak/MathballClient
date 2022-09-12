@@ -21,14 +21,11 @@ public class Panel extends JPanel implements Runnable{
 	private Umpire umpire = new Umpire(this, new Point(560, 180), "sprites/umpiSprite.png");
 	private Team teamField, teamBat;
 	Jumbotron jumbotron = new Jumbotron();
-	private AudioPlayer audioPlayer;
-	
+	private AudioPlayer audioPlayer;	
 	ArrayList<Drawable> drawables = new ArrayList<>();
-	
 	private final int PANEL_WIDTH = 1000;
 	private final int PANEL_HEIGHT = 800;
 	private int FPS = 60;
-	
 	private Thread gameThread;
 	
 	public Panel(AudioPlayer audioPlayer) throws IOException{
@@ -80,9 +77,7 @@ public class Panel extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {		
 		super.paintComponent(g);		
 		Graphics2D g2D = (Graphics2D) g;
-		
 		g2D.drawImage(background, 0, 0, null);		
-
 		for (Drawable drawable: drawables) {
 			drawable.draw(g2D);
 		}		
@@ -169,4 +164,5 @@ public class Panel extends JPanel implements Runnable{
 	public ArrayList<Drawable> getDrawables() {
 		return drawables;
 	}
+	
 }

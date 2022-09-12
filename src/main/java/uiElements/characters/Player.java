@@ -15,14 +15,12 @@ import uiElements.ResourceLoader;
 @SuppressWarnings("serial")
 public class Player extends Drawable {
 	
-	final Point benchSpot;	
-	ArrayList<Point> destinations = new ArrayList<>();
+	private final Point benchSpot;	
+	private ArrayList<Point> destinations = new ArrayList<>();
 	private int base = 0;
-	final BufferedImage fieldSprite, batSprite, idleSprite, celebFieldSprite, celebSprite;
-	private PlayerAnimator animator;
-	
-	private boolean animationFlipper = false;
-	boolean field = false;
+	private final BufferedImage fieldSprite, batSprite, idleSprite, celebFieldSprite, celebSprite;
+	private PlayerAnimator animator;	
+	private boolean animationFlipper, field = false;
 	
 	public Player(Panel panel, Point point, String imagePath, String fieldImage, String batImage, String celebFieldImage, String celebImage) throws IOException {
 		super(panel, point, imagePath);
@@ -41,12 +39,35 @@ public class Player extends Drawable {
 		destinations.add(getBenchSpot());
 	}
 		
+	public void move() {
+		animator.move();
+	}
+	
 	public void setDestination(Point destinationCoords) {
 		destinations.add(destinationCoords);
+	}	
+	
+	public void draw(Graphics2D g2D) {
+		if (animationFlipper) {
+			animator.animate();
+		}
+		super.draw(g2D);
+	}
+	
+	public void arrived() {
+		destinations.remove(0);
+	}
+	
+	public boolean hasDestinations() {
+		if (destinations.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	public void setBase(int i) {
-		base = i;
+	public Point getNextDestination() {
+		return destinations.get(0);
 	}
 		
 	public int getBase() {
@@ -57,10 +78,14 @@ public class Player extends Drawable {
 		return benchSpot;
 	}
 	
-	public void move() {
-		animator.move();
+	public boolean getField() {
+		return field;
 	}
-
+	
+	public void setBase(int i) {
+		base = i;
+	}
+	
 	public void setField() {
 		field = true;
 		sprite = fieldSprite;		
@@ -74,17 +99,6 @@ public class Player extends Drawable {
 		field = false;
 		sprite = idleSprite;		
 	}
-	
-	public void draw(Graphics2D g2D) {
-		if (animationFlipper) {
-			animator.animate();
-		}
-		super.draw(g2D);
-	}
-
-	public void setAnimationFlipper(boolean bool) {
-		animationFlipper = bool;
-	}
 
 	public void setCeleb() {
 		sprite = celebSprite;				
@@ -93,4 +107,9 @@ public class Player extends Drawable {
 	public void setCelebField() {
 		sprite = celebFieldSprite;
 	}
+		
+	public void setAnimationFlipper(boolean bool) {
+		animationFlipper = bool;
+	}
+	
 }

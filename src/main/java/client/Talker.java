@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import uiElements.Panel;
 import uiElements.keyboards.AnswerKeyboard;
+import uiElements.keyboards.Ball;
 import uiElements.keyboards.InningKeyboard;
 import uiElements.keyboards.PitchKeyboard;
 
@@ -88,6 +89,9 @@ public class Talker extends Thread {
 						case "startLoop":
 							panel.getJumbotron().updateJumbotron(arrResp[2]);
 							panel.getUmpire().setTalk(" ");
+							break;
+						case "ball":
+							panel.getDrawables().add(new Ball(panel, arrResp[2]));
 							break;
 					}
 				} else {

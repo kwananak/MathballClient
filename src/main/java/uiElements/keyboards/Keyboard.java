@@ -1,4 +1,4 @@
-package uiElements;
+package uiElements.keyboards;
 
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
@@ -7,7 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-import client.Panel;
+import uiElements.Drawable;
+import uiElements.Panel;
 
 @SuppressWarnings("serial")
 public abstract class Keyboard extends Drawable implements MouseListener {

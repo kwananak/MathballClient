@@ -1,4 +1,4 @@
-package client;
+package uiElements;
 
 import javax.swing.*;
 

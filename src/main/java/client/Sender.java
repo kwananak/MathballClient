@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import uiElements.Keyboard;
+import uiElements.Panel;
+import uiElements.keyboards.Keyboard;
 
 public abstract class Sender {
 	
 	public static Point send(Keyboard keyboard, Socket server, Panel panel) {		
-		panel.drawables.add(keyboard);		
+		panel.getDrawables().add(keyboard);		
 		while (true) {
 			try {Thread.sleep(1);} catch (InterruptedException e) {e.printStackTrace();}
 			if (!keyboard.getStoredAnswer().equals("")) {
@@ -25,7 +26,7 @@ public abstract class Sender {
 			e.printStackTrace();
 		}
 		Point savedCoords = new Point(keyboard.getLocation());
-		panel.drawables.remove(panel.drawables.size()-1);
+		panel.getDrawables().remove(panel.getDrawables().size()-1);
 		keyboard.removeButtons();
 		panel.remove(keyboard);
 		return savedCoords;		

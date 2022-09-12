@@ -1,6 +1,10 @@
 package client;
 
 import java.net.*;
+
+import uiElements.Panel;
+import uiElements.Window;
+
 import java.io.*;
 
 public class Client {

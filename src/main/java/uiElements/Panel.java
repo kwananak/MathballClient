@@ -1,4 +1,4 @@
-package client;
+package uiElements;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,14 +8,17 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import uiElements.*;
+import client.AudioPlayer;
+import uiElements.characters.Player;
+import uiElements.characters.Team;
+import uiElements.characters.Umpire;
 
 @SuppressWarnings("serial")
 public class Panel extends JPanel implements Runnable{
 	
 	private final BufferedImage background;
-	private Team[] teams = {new Team(this, "sprites/redSprite.png", "sprites/redField.png", "sprites/redBat.png", "sprites/redCeleb.png", 9, 150), new Team(this, "sprites/blueSprite.png", "sprites/blueField.png", "sprites/blueBat.png", "sprites/blueCeleb.png", 639, 150)};
-	Umpire umpire = new Umpire(this, new Point(560, 180), "sprites/umpiSprite.png");
+	private Team[] teams = {new Team(this, "sprites/redSprite.png", "sprites/redField.png", "sprites/redBat.png", "sprites/redCelebField.png", "sprites/redCeleb.png", 9, 150), new Team(this, "sprites/blueSprite.png", "sprites/blueField.png", "sprites/blueBat.png", "sprites/blueCelebField.png", "sprites/blueCeleb.png", 639, 150)};
+	private Umpire umpire = new Umpire(this, new Point(560, 180), "sprites/umpiSprite.png");
 	private Team teamField, teamBat;
 	Jumbotron jumbotron = new Jumbotron();
 	private AudioPlayer audioPlayer;
@@ -85,37 +88,35 @@ public class Panel extends JPanel implements Runnable{
 		}		
 	}
 	
-	public void inningStart(String str) {
-		
+	public void inningStart(String str) {		
 		if (str.equals("top")) {
 			teamField = teams[1];
 			teamBat = teams[0];
 		} else {
 			teamField = teams[0];
 			teamBat = teams[1];
-		}
-	
+		}	
 		audioPlayer.playCrowd();
-		for (Player player: teamField.getAllPlayers()) {
-			player.setFieldSprite();
-		}
 		teamField.getPlayer(0).setDestination(Bases.mountCoords);
 		teamField.getPlayer(1).setDestination(Bases.homeCoordsField);
 		teamField.getPlayer(2).setDestination(Bases.firstCoordsField);
 		teamField.getPlayer(3).setDestination(Bases.secondCoordsField);
-		teamField.getPlayer(4).setDestination(Bases.thirdCoordsField);
+		teamField.getPlayer(4).setDestination(Bases.thirdCoordsField);		
+		for (Player player: teamField.getAllPlayers()) {
+			player.setField();
+		}
 	}
 	
 	public void turnStart() {	
 		teamBat.getPlayer(teamBat.getBatter()).setDestination(Bases.homeCoordsBat);
 		teamBat.getPlayer(teamBat.getBatter()).setBase(1);
-		teamBat.getPlayer(teamBat.getBatter()).setBatSprite();
 	}
 
 	public void cycleBases(String str) {
 		int a = Integer.valueOf(str);
 		for (int i = 0; i < a; i++) {
-			for (Player player: teamBat.getAllPlayers()) {
+			teamBat.cheers();
+			for (Player player: teamBat.getAllPlayers()) {;
 				if (player.getBase() > 0) {
 					player.setBase(player.getBase()+1);
 					switch (player.getBase()) {
@@ -132,7 +133,7 @@ public class Panel extends JPanel implements Runnable{
 							break;
 						case 2:
 							player.setDestination(Bases.firstCoordsBat);
-							player.setIdleSprite();
+							player.setIdle();
 							teamBat.cycleBatter();
 							break;
 					}
@@ -142,14 +143,30 @@ public class Panel extends JPanel implements Runnable{
 	}
 	
 	public void clearBatter() {
+		teamField.cheers();
+		audioPlayer.playCrowd();
 		teamBat.getPlayer(teamBat.getBatter()).returnBench();
+		teamBat.getPlayer(teamBat.getBatter()).setIdle();
 		teamBat.cycleBatter();
 	}
 	
 	public void returnBench() {
+		teamField.cheers();
+		audioPlayer.playCrowd();
 		for (Team team: teams) {
 			team.returnBench();
 		}
 	}
 	
+	public Umpire getUmpire() {
+		return umpire;
+	}
+
+	public Jumbotron getJumbotron() {
+		return jumbotron;
+	}
+
+	public ArrayList<Drawable> getDrawables() {
+		return drawables;
+	}
 }

@@ -1,4 +1,4 @@
-package uiElements;
+package uiElements.keyboards;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -6,7 +6,8 @@ import java.awt.Point;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import client.Panel;
+import uiElements.Panel;
+import uiElements.ResourceLoader;
 
 @SuppressWarnings("serial")
 public class AnswerKeyboard extends Keyboard {

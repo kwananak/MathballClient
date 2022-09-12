@@ -5,9 +5,10 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import uiElements.InningKeyboard;
-import uiElements.AnswerKeyboard;
-import uiElements.PitchKeyboard;
+import uiElements.Panel;
+import uiElements.keyboards.AnswerKeyboard;
+import uiElements.keyboards.InningKeyboard;
+import uiElements.keyboards.PitchKeyboard;
 
 public class Talker extends Thread {
 	
@@ -36,11 +37,12 @@ public class Talker extends Thread {
 				if (serverResponse.startsWith("command")) {
 					String[] arrResp = serverResponse.split(":");
 					switch (arrResp[1]) {
-						case "sender": 
+						case "sender":
+							audioPlayer.playPitch(); 
 							answerKeysCoords.setLocation(Sender.send(new AnswerKeyboard(panel, answerKeysCoords, team), socket, panel)); 
 							break;
 						case "inningSender":
-							panel.umpire.setTalk(arrResp[2]);
+							panel.getUmpire().setTalk(arrResp[2]);
 							Sender.send(new InningKeyboard(panel), socket, panel);
 							break;
 						case "inningStart": 
@@ -48,30 +50,30 @@ public class Talker extends Thread {
 							break;
 						case "turnStart": 
 							panel.turnStart();
-							panel.jumbotron.updateJumbotron(arrResp[2]);
-							panel.umpire.setTalk(" ");
+							panel.getJumbotron().updateJumbotron(arrResp[2]);
+							panel.getUmpire().setTalk(" ");
 							break;
 						case "cycleBases":
 							audioPlayer.playHit();
+							audioPlayer.playCrowd();
 							panel.cycleBases(arrResp[2]);
-							panel.jumbotron.setMainDisplay(arrResp[2]);
+							panel.getJumbotron().setMainDisplay(arrResp[2]);
 							break;
 						case "clearBatter":
 							panel.clearBatter();
-							panel.umpire.setTalk("Out!");
+							panel.getUmpire().setTalk("Out!");
 							break;
 						case "returnBench":
 							panel.returnBench();
 							break;
 						case "jumbotron":
-							panel.jumbotron.updateJumbotron(arrResp[2]);
+							panel.getJumbotron().updateJumbotron(arrResp[2]);
 							break;
 						case "umpire":
-							panel.umpire.setTalk(arrResp[2]);
+							panel.getUmpire().setTalk(arrResp[2]);
 							break;
 						case "pitch":
-							audioPlayer.playPitch();
-							panel.umpire.setTalk(arrResp[2]);
+							panel.getUmpire().setTalk(arrResp[2]);
 							pitchKeysCoords.setLocation(Sender.send(new PitchKeyboard(panel, pitchKeysCoords), socket, panel));
 							break;
 						case "team":
@@ -84,8 +86,8 @@ public class Talker extends Thread {
 							}
 							break;
 						case "startLoop":
-							panel.jumbotron.updateJumbotron(arrResp[2]);
-							panel.umpire.setTalk(" ");
+							panel.getJumbotron().updateJumbotron(arrResp[2]);
+							panel.getUmpire().setTalk(" ");
 							break;
 					}
 				} else {

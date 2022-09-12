@@ -1,4 +1,4 @@
-package uiElements;
+package uiElements.keyboards;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-import client.Panel;
+import uiElements.Panel;
 
 @SuppressWarnings("serial")
 public class Button extends JPanel implements MouseListener{

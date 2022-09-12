@@ -1,9 +1,9 @@
-package uiElements;
+package uiElements.keyboards;
 
 import java.awt.Point;
 import java.io.IOException;
 
-import client.Panel;
+import uiElements.Panel;
 
 @SuppressWarnings("serial")
 public class PitchKeyboard extends Keyboard {

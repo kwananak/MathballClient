@@ -1,4 +1,4 @@
-package client;
+package uiElements;
 
 import java.awt.Point;
 
@@ -15,7 +15,7 @@ public abstract class Bases {
 	final static Point secondCoordsField = new Point((int) secondCoords.getX() - 60, (int) secondCoords.getY());
 	final static Point thirdCoordsField = new Point((int) thirdCoords.getX() - 60, (int) thirdCoords.getY());
 	
-	final static Point homeCoordsBat = new Point((int) homeCoords.getX() - 60, (int) homeCoords.getY() + 9);
+	public final static Point homeCoordsBat = new Point((int) homeCoords.getX() - 60, (int) homeCoords.getY() + 9);
 	final static Point firstCoordsBat = new Point((int) firstCoords.getX() + 60, (int) firstCoords.getY());
 	final static Point secondCoordsBat = new Point((int) secondCoords.getX() + 60, (int) secondCoords.getY());
 	final static Point thirdCoordsBat = new Point((int) thirdCoords.getX() + 60, (int) thirdCoords.getY());

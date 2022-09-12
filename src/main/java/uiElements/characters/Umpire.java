@@ -1,4 +1,4 @@
-package uiElements;
+package uiElements.characters;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,7 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.IOException;
 
-import client.Panel;
+import uiElements.Drawable;
+import uiElements.Panel;
 
 @SuppressWarnings("serial")
 public class Umpire extends Drawable {

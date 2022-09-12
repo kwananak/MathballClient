@@ -8,8 +8,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import client.Panel;
-
 @SuppressWarnings("serial")
 public class Drawable extends JPanel {
 

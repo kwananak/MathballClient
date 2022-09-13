@@ -41,6 +41,7 @@ public class Talker extends Thread {
 						case "sender":
 							audioPlayer.playPitch(); 
 							answerKeysCoords.setLocation(Sender.send(new AnswerKeyboard(panel, answerKeysCoords, team), socket, panel)); 
+							panel.removeLastDrawable();
 							break;
 						case "inningSender":
 							panel.getUmpire().setTalk(arrResp[2]);
@@ -83,7 +84,7 @@ public class Talker extends Thread {
 								answerKeysCoords = new Point(270, 330);
 							} else {
 								team = false;
-								answerKeysCoords = new Point(550, 330);
+								answerKeysCoords = new Point(570, 330);
 							}
 							break;
 						case "startLoop":
@@ -91,6 +92,7 @@ public class Talker extends Thread {
 							panel.getUmpire().setTalk(" ");
 							break;
 						case "ball":
+							panel.getUmpire().setTalk(" ");
 							panel.getDrawables().add(new Ball(panel, arrResp[2]));
 							break;
 					}

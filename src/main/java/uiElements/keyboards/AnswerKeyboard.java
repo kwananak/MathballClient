@@ -1,5 +1,6 @@
 package uiElements.keyboards;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -89,6 +90,7 @@ public class AnswerKeyboard extends Keyboard {
 		for (String digit: answer) {
 			answerString += digit;
 		}
+		g2D.setPaint(Color.white);
 		g2D.setFont(new Font("Fixedsys",Font.BOLD, 36));
 		g2D.drawString(answerString, getX() + 20, getY() + 46);		
 	}

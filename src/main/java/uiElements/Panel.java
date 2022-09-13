@@ -39,12 +39,12 @@ public class Panel extends JPanel implements Runnable{
 		gameThread = new Thread(this);
 		audioPlayer.playTheme();
 		drawables.add(jumbotron);
-		drawables.add(umpire);
 		for (Team team: teams) {
 			for (Player player: team.getAllPlayers()) {
 				drawables.add(player);
 			}
 		}
+		drawables.add(umpire);
 		gameThread.start();
 	}
 
@@ -151,6 +151,10 @@ public class Panel extends JPanel implements Runnable{
 		for (Team team: teams) {
 			team.returnBench();
 		}
+	}
+	
+	public void removeLastDrawable() {
+		drawables.remove(drawables.size() - 1);
 	}
 	
 	public Umpire getUmpire() {

@@ -14,10 +14,15 @@ import uiElements.Panel;
 public class Ball extends Drawable {
 	
 	private String string;
+	private int xDiv = 15;
 	
 	public Ball(Panel panel, String string) throws IOException {
-		super(panel, new Point(440, 300), "sprites/ball.png");
+		super(panel, new Point(430, 270), "sprites/ball.png");
 		this.string = string;
+		String[] arrString = string.split("X");
+		if (Integer.valueOf(arrString[0]) < 10) {
+			xDiv = 38;
+		}		
 	}
 	
 	@Override
@@ -25,7 +30,7 @@ public class Ball extends Drawable {
 		super.draw(g2D);
 		g2D.setPaint(Color.black);
 		g2D.setFont(new Font("Fixedsys",Font.BOLD,40));
-		g2D.drawString(string, getX() + 10, getY() + 70);
+		g2D.drawString(string, getX() + xDiv, getY() + 83);
 	}
 
 }

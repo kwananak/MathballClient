@@ -26,8 +26,8 @@ public abstract class Sender {
 			e.printStackTrace();
 		}
 		Point savedCoords = new Point(keyboard.getLocation());
-		panel.getDrawables().remove(panel.getDrawables().size()-1);
 		keyboard.removeButtons();
+		panel.removeLastDrawable();
 		panel.remove(keyboard);
 		return savedCoords;		
 	}

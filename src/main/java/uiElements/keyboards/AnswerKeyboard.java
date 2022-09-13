@@ -24,18 +24,18 @@ public class AnswerKeyboard extends Keyboard {
 			sprite = ImageIO.read(ResourceLoader.load("sprites/blueKey.png"));
 		}
 		buttons = new Button[12];
-		buttons[0] = new Button(panel, this, "1", 12, 56, 36, 36);
-		buttons[1] = new Button(panel, this, "2", 54, 56, 36, 36);
-		buttons[2] = new Button(panel, this, "3", 96, 56, 36, 36);
-		buttons[3] = new Button(panel, this, "4", 12, 98, 36, 36);
-		buttons[4] = new Button(panel, this, "5", 54, 98, 36, 36);
-		buttons[5] = new Button(panel, this, "6", 96, 98, 36, 36);
-		buttons[6] = new Button(panel, this, "7", 12, 140, 36, 36);
-		buttons[7] = new Button(panel, this, "8", 54, 140, 36, 36);
-		buttons[8] = new Button(panel, this, "9", 96, 140, 36, 36);
-		buttons[9] = new Button(panel, this, "0", 12, 182, 36, 36);
-		buttons[10] = new Button(panel, this, "C", 54, 182, 36, 36);
-		buttons[11] = new Button(panel, this, "E", 96, 182, 36, 36);
+		buttons[0] = new Button(panel, this, "1", 16, 68, 38, 38);
+		buttons[1] = new Button(panel, this, "2", 60, 68, 38, 38);
+		buttons[2] = new Button(panel, this, "3", 104, 68, 38, 38);
+		buttons[3] = new Button(panel, this, "4", 16, 110, 38, 38);
+		buttons[4] = new Button(panel, this, "5", 60, 110, 38, 38);
+		buttons[5] = new Button(panel, this, "6", 104, 110, 38, 38);
+		buttons[6] = new Button(panel, this, "7", 16, 152, 38, 38);
+		buttons[7] = new Button(panel, this, "8", 60, 152, 38, 38);
+		buttons[8] = new Button(panel, this, "9", 104, 152, 38, 38);
+		buttons[9] = new Button(panel, this, "0", 16, 194, 38, 38);
+		buttons[10] = new Button(panel, this, "C", 60, 194, 38, 38);
+		buttons[11] = new Button(panel, this, "E", 104, 194, 38, 38);
 		setBounds(getX(), getY(), 140, 10);
 	}
 	
@@ -92,7 +92,7 @@ public class AnswerKeyboard extends Keyboard {
 		}
 		g2D.setPaint(Color.white);
 		g2D.setFont(new Font("Fixedsys",Font.BOLD, 36));
-		g2D.drawString(answerString, getX() + 20, getY() + 46);		
+		g2D.drawString(answerString, getX() + 31, getY() + 52);		
 	}
 
 	@Override

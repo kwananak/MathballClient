@@ -18,7 +18,7 @@ public class Panel extends JPanel implements Runnable{
 	
 	private final BufferedImage background;
 	private Team[] teams = {new Team(this, "sprites/redSprite.png", "sprites/redField.png", "sprites/redBat.png", "sprites/redCelebField.png", "sprites/redCeleb.png", 9, 150), new Team(this, "sprites/blueSprite.png", "sprites/blueField.png", "sprites/blueBat.png", "sprites/blueCelebField.png", "sprites/blueCeleb.png", 639, 150)};
-	private Umpire umpire = new Umpire(this, new Point(560, 180), "sprites/umpiSprite.png");
+	private Umpire umpire = new Umpire(this, new Point(575, 180), "sprites/umpire/umpiSprite.png");
 	private Team teamField, teamBat;
 	Jumbotron jumbotron = new Jumbotron();
 	private AudioPlayer audioPlayer;	
@@ -39,11 +39,6 @@ public class Panel extends JPanel implements Runnable{
 		gameThread = new Thread(this);
 		audioPlayer.playTheme();
 		drawables.add(jumbotron);
-		for (Team team: teams) {
-			for (Player player: team.getAllPlayers()) {
-				drawables.add(player);
-			}
-		}
 		drawables.add(umpire);
 		gameThread.start();
 	}
@@ -104,6 +99,7 @@ public class Panel extends JPanel implements Runnable{
 	
 	public void turnStart() {	
 		teamBat.getPlayer(teamBat.getBatter()).setDestination(Bases.homeCoordsBat);
+		teamBat.getPlayer(teamBat.getBatter()).stopAnimation();
 		teamBat.getPlayer(teamBat.getBatter()).setBase(1);
 	}
 
@@ -167,6 +163,17 @@ public class Panel extends JPanel implements Runnable{
 
 	public ArrayList<Drawable> getDrawables() {
 		return drawables;
+	}
+	
+	public void addTeamsToDrawables() {	
+		for (Team team: teams) {
+			for (Player player: team.getAllPlayers()) {
+				drawables.add(player);
+				try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+			}
+		}
+		drawables.remove(umpire);
+		drawables.add(umpire);
 	}
 	
 }

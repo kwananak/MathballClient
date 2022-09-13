@@ -4,9 +4,11 @@ public class PlayerAnimator {
 
 	private Player player;
 	private final int velocity = 3;	
-	private int framesCount = 10;
-	private int animCount = 9;
-	private boolean animFlip = true;
+	private int framesCount = 0;
+	private int animCount = 10;
+	private int animSpeed = 15;
+	private boolean animFlip = false;
+	private boolean animPrimer = true;
 	
 	public PlayerAnimator(Player player) {
 		this.player = player;
@@ -35,7 +37,10 @@ public class PlayerAnimator {
 		}		
 	}
 
-	public void animate() {
+	public void celebrate() {
+		if (animPrimer) {
+			animStarter();			
+		}
 		if (animFlip) {
 			if (player.getField()) {
 				player.setCelebField();
@@ -51,12 +56,11 @@ public class PlayerAnimator {
 		}			
 		framesCount--;
 		if (framesCount == 0) {
-			framesCount = 10;
+			framesCount = animSpeed;
 			animCount--;
 			animFlip = !animFlip;
 			if (animCount == 0) {
-				animCount = 9;
-				player.setAnimationFlipper(false);
+				interrupt();
 				if (player.getField()) {
 					player.setField();
 				} else {
@@ -64,6 +68,17 @@ public class PlayerAnimator {
 				}
 			}
 		}		
+	}
+	
+	private void animStarter() {
+		framesCount = (int) (((Math.random() * 10) / 2) * 3);
+		animPrimer = false;
+	}
+	
+	public void interrupt() {
+		animCount = 9;
+		animPrimer = true;
+		player.setAnimationFlipper(false);
 	}
 	
 }

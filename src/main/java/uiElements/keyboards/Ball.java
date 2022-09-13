@@ -1,36 +1,34 @@
 package uiElements.keyboards;
 
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import uiElements.Drawable;
 import uiElements.Panel;
+import uiElements.ResourceLoader;
 
 @SuppressWarnings("serial")
 public class Ball extends Drawable {
 	
-	private String string;
-	private int xDiv = 15;
+	private BufferedImage[] numbers = new BufferedImage[2];
 	
 	public Ball(Panel panel, String string) throws IOException {
 		super(panel, new Point(430, 270), "sprites/ball.png");
-		this.string = string;
 		String[] arrString = string.split("X");
-		if (Integer.valueOf(arrString[0]) < 10) {
-			xDiv = 38;
-		}		
+		numbers[0] = ImageIO.read(ResourceLoader.load("sprites/numbers/number" + Integer.valueOf(arrString[0]) +".png"));
+		numbers[1] = ImageIO.read(ResourceLoader.load("sprites/numbers/number" + Integer.valueOf(arrString[1]) +".png"));				
 	}
 	
 	@Override
 	public void draw(Graphics2D g2D) {
 		super.draw(g2D);
-		g2D.setPaint(Color.black);
-		g2D.setFont(new Font("Fixedsys",Font.BOLD,40));
-		g2D.drawString(string, getX() + xDiv, getY() + 83);
+		g2D.drawImage(numbers[0], getX() - 60, getY() + 10, this);
+		g2D.drawImage(numbers[1], getX() + 110, getY() + 10, this);
 	}
 
 }

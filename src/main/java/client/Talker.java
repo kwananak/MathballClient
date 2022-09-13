@@ -81,10 +81,10 @@ public class Talker extends Thread {
 						case "team":
 							if (arrResp[2].equals("true")) {
 								team = true;
-								answerKeysCoords = new Point(270, 330);
+								answerKeysCoords = new Point(120, 540);
 							} else {
 								team = false;
-								answerKeysCoords = new Point(570, 330);
+								answerKeysCoords = new Point(720, 540);
 							}
 							break;
 						case "startLoop":
@@ -95,6 +95,9 @@ public class Talker extends Thread {
 							panel.getUmpire().setTalk(" ");
 							panel.getDrawables().add(new Ball(panel, arrResp[2]));
 							break;
+						case "startGame":
+							panel.addTeamsToDrawables();
+							panel.getUmpire().setTalk(arrResp[2]);				
 					}
 				} else {
 					System.out.println("server says: " + inputLog.get(inputLog.size()-1));

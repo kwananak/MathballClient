@@ -29,6 +29,7 @@ public abstract class Sender {
 		keyboard.removeButtons();
 		panel.removeLastDrawable();
 		panel.remove(keyboard);
+		panel.getUmpire().setTalk(" ");
 		return savedCoords;		
 	}
 	

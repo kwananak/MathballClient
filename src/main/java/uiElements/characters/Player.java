@@ -49,7 +49,7 @@ public class Player extends Drawable {
 	
 	public void draw(Graphics2D g2D) {
 		if (animationFlipper) {
-			animator.animate();
+			animator.celebrate();
 		}
 		super.draw(g2D);
 	}
@@ -110,6 +110,10 @@ public class Player extends Drawable {
 		
 	public void setAnimationFlipper(boolean bool) {
 		animationFlipper = bool;
+	}
+	
+	public void stopAnimation() {
+		animator.interrupt();
 	}
 	
 }

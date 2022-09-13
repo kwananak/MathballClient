@@ -35,11 +35,11 @@ public class Jumbotron extends Drawable {
 				fullJumbo = "true";
 				break;
 			case 2:
-				mainDisplay = "DDouble!!";
+				mainDisplay = "Double!";
 				fullJumbo = "true";
 				break;
 			case 3:
-				mainDisplay = "TTTriple!!!";
+				mainDisplay = "Triple!";
 				fullJumbo = "true";
 				break;
 		}

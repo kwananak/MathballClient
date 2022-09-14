@@ -43,7 +43,5 @@ public class Umpire extends Drawable {
 	public void setTalk(String str) {
 		talk = str;
 	}
-	
-	//112x80
-	//currentframe=spritesheet.getSubimage(x, y, w, h);
+
 }

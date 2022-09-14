@@ -36,7 +36,7 @@ public class AnswerKeyboard extends Keyboard {
 		buttons[9] = new Button(panel, this, "0", 16, 194, 38, 38);
 		buttons[10] = new Button(panel, this, "C", 60, 194, 38, 38);
 		buttons[11] = new Button(panel, this, "E", 104, 194, 38, 38);
-		setBounds(getX(), getY(), 140, 10);
+		setBounds(getX(), getY(), 140, 15);
 	}
 	
 	@Override

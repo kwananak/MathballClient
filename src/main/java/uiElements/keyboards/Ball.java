@@ -15,13 +15,14 @@ import uiElements.ResourceLoader;
 @SuppressWarnings("serial")
 public class Ball extends Drawable {
 	
-	private BufferedImage[] numbers = new BufferedImage[2];
+	private BufferedImage numbers[] = new BufferedImage[2];
 	
 	public Ball(Panel panel, String string) throws IOException {
-		super(panel, new Point(430, 270), "sprites/ball.png");
-		String[] arrString = string.split("X");
-		numbers[0] = ImageIO.read(ResourceLoader.load("sprites/numbers/number" + Integer.valueOf(arrString[0]) +".png"));
-		numbers[1] = ImageIO.read(ResourceLoader.load("sprites/numbers/number" + Integer.valueOf(arrString[1]) +".png"));				
+		super(panel, new Point(430, 270), "sprites/ballElements/ball.png");
+		String[] arrString = string.split(",");
+		BufferedImage numbersSheet = ImageIO.read(ResourceLoader.load("sprites/ballElements/numbers.png"));
+		numbers[0] = numbersSheet.getSubimage(0, (Integer.valueOf(arrString[0]) - 1) * 112, 96, 112);
+		numbers[1] = numbersSheet.getSubimage(0, (Integer.valueOf(arrString[1]) - 1)* 112, 96, 112);
 	}
 	
 	@Override

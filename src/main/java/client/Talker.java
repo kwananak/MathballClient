@@ -20,7 +20,7 @@ public class Talker extends Thread {
 	private final AudioPlayer audioPlayer;
 	private boolean team;
 	private Point answerKeysCoords;
-	private Point pitchKeysCoords = new Point(360, 430);
+	private Point pitchKeysCoords = new Point(400, 430);
 	
 	public Talker(Socket socket, Panel panel, AudioPlayer audioPlayer) throws IOException {
 		this.panel = panel;
@@ -40,6 +40,8 @@ public class Talker extends Thread {
 					switch (arrResp[1]) {
 						case "sender":
 							audioPlayer.playPitch(); 
+							panel.getUmpire().setTalk(" ");
+							panel.getDrawables().add(new Ball(panel, arrResp[2]));
 							answerKeysCoords.setLocation(Sender.send(new AnswerKeyboard(panel, answerKeysCoords, team), socket, panel)); 
 							panel.removeLastDrawable();
 							break;
@@ -91,13 +93,10 @@ public class Talker extends Thread {
 							panel.getJumbotron().updateJumbotron(arrResp[2]);
 							panel.getUmpire().setTalk(" ");
 							break;
-						case "ball":
-							panel.getUmpire().setTalk(" ");
-							panel.getDrawables().add(new Ball(panel, arrResp[2]));
-							break;
 						case "startGame":
 							panel.addTeamsToDrawables();
-							panel.getUmpire().setTalk(arrResp[2]);				
+							panel.getUmpire().setTalk(arrResp[2]);
+							break;
 					}
 				} else {
 					System.out.println("server says: " + inputLog.get(inputLog.size()-1));

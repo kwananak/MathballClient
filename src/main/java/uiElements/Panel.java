@@ -28,6 +28,7 @@ public class Panel extends JPanel implements Runnable{
 	private int FPS = 60;
 	private Thread gameThread;
 	private boolean endBall = false;
+	private boolean availableBasePitch = true;
 	
 	public Panel(AudioPlayer audioPlayer) throws IOException{
 		this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -111,6 +112,7 @@ public class Panel extends JPanel implements Runnable{
 	}
 	
 	public void turnStart() {	
+		availableBasePitch = true;
 		teamBat.getPlayer(teamBat.getBatter()).setDestination(Bases.homeCoordsBat);
 		teamBat.getPlayer(teamBat.getBatter()).stopAnimation();
 		teamBat.getPlayer(teamBat.getBatter()).setBase(1);
@@ -221,6 +223,14 @@ public class Panel extends JPanel implements Runnable{
 
 	public Team getTeamBat() {
 		return teamBat;		
+	}
+
+	public boolean isAvailableBasePitch() {
+		return availableBasePitch;
+	}
+
+	public void setAvailableBasePitch(boolean availableBasePitch) {
+		this.availableBasePitch = availableBasePitch;
 	}
 	
 }

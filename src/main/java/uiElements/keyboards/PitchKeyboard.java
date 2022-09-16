@@ -26,15 +26,17 @@ public class PitchKeyboard extends Keyboard {
 		buttons[1] = new Button(panel, this, "4", 110, 15, 80, 90);
 
 		setBounds(getX(), getY(), 200, 15);
-		for (Player player: panel.getTeamBat().getAllPlayers()) {
-			if (player.getBase() == 2) {
-				baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/firstBaseThrow.png", "1", 300, 400, 90, 80));
-			}
-			if (player.getBase() == 3) {
-				baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/secondBaseThrow.png", "2", 460, 500, 80, 90));
-			}
-			if (player.getBase() == 4) {
-				baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/thirdBaseThrow.png", "3", 600, 400, 90, 80));
+		if (panel.isAvailableBasePitch()) {
+			for (Player player: panel.getTeamBat().getAllPlayers()) {
+				if (player.getBase() == 2) {
+					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/firstBaseThrow.png", "1", 300, 400, 90, 80));
+				}
+				if (player.getBase() == 3) {
+					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/secondBaseThrow.png", "2", 460, 510, 80, 90));
+				}
+				if (player.getBase() == 4) {
+					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/thirdBaseThrow.png", "3", 600, 400, 90, 80));
+				}
 			}
 		}
 	}

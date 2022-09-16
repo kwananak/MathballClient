@@ -17,9 +17,11 @@ public class BaseThrowButton extends JPanel implements MouseListener {
 	Keyboard keyboard;
 	BufferedImage image;
 	String buttonID;
+	Panel panel;
 	
 	public BaseThrowButton (Panel panel, Keyboard keyboard, String imagePath, String buttonID, int i, int j, int k, int l) throws IOException {
 		image = ImageIO.read(ResourceLoader.load(imagePath));
+		this.panel = panel;
 		this.keyboard = keyboard;
 		this.buttonID = buttonID;
 		setBounds(i, j, k, l);
@@ -33,6 +35,7 @@ public class BaseThrowButton extends JPanel implements MouseListener {
 
 	public void mousePressed(MouseEvent e) {
 		keyboard.buttonPressed(buttonID);
+		panel.setAvailableBasePitch(false);
 	}
 
 	@Override

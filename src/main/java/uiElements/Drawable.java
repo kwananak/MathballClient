@@ -16,6 +16,11 @@ public class Drawable extends JPanel {
 	
 	public Drawable() {}
 	
+	public Drawable(Panel panel, String imagePath) throws IOException {
+		this.panel = panel;
+		this.sprite = ImageIO.read(ResourceLoader.load(imagePath));
+	}
+	
 	public Drawable(Panel panel, Point point) {
 		this.panel = panel;
 		this.setLocation(point);

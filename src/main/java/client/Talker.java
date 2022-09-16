@@ -6,8 +6,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import uiElements.Panel;
+import uiElements.Ball.Ball;
 import uiElements.keyboards.AnswerKeyboard;
-import uiElements.keyboards.Ball;
 import uiElements.keyboards.InningKeyboard;
 import uiElements.keyboards.PitchKeyboard;
 
@@ -20,7 +20,8 @@ public class Talker extends Thread {
 	private final AudioPlayer audioPlayer;
 	private boolean team;
 	private Point answerKeysCoords;
-	private Point pitchKeysCoords = new Point(400, 430);
+	private Point pitchKeysCoords = new Point(400, 360);
+	
 	
 	public Talker(Socket socket, Panel panel, AudioPlayer audioPlayer) throws IOException {
 		this.panel = panel;
@@ -29,6 +30,7 @@ public class Talker extends Thread {
 		in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));		
 	}
 
+	
 	public void run() {
 		System.out.println("Talker started");
 		try {
@@ -43,7 +45,7 @@ public class Talker extends Thread {
 							panel.getUmpire().setTalk(" ");
 							panel.getDrawables().add(new Ball(panel, arrResp[2]));
 							answerKeysCoords.setLocation(Sender.send(new AnswerKeyboard(panel, answerKeysCoords, team), socket, panel)); 
-							panel.removeLastDrawable();
+							panel.setEndBallTrue();
 							break;
 						case "inningSender":
 							panel.getUmpire().setTalk(arrResp[2]);
@@ -96,6 +98,14 @@ public class Talker extends Thread {
 						case "startGame":
 							panel.addTeamsToDrawables();
 							panel.getUmpire().setTalk(arrResp[2]);
+							break;
+						case "baseCatch":
+							panel.removeRunner(Integer.valueOf(arrResp[2]) + 1);
+							panel.getUmpire().setTalk("catch at base " + arrResp[2]);
+							break;
+						case "runnerHit":
+							panel.cycleBasesSteal();
+							panel.getUmpire().setTalk("base stolen");
 							break;
 					}
 				} else {

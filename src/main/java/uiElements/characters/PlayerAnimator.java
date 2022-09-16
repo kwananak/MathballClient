@@ -61,11 +61,6 @@ public class PlayerAnimator {
 			animFlip = !animFlip;
 			if (animCount == 0) {
 				interrupt();
-				if (player.getField()) {
-					player.setField();
-				} else {
-					player.setIdle();
-				}
 			}
 		}		
 	}
@@ -79,6 +74,15 @@ public class PlayerAnimator {
 		animCount = 9;
 		animPrimer = true;
 		player.setAnimationFlipper(false);
+		if (player.getField()) {
+			player.setField();
+		} else {
+			if (player.getBase() == 1) {
+				player.setBat();
+			} else {
+				player.setIdle();
+			}
+		}
 	}
 	
 }

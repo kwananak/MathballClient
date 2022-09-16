@@ -27,12 +27,25 @@ public class Panel extends JPanel implements Runnable{
 	private final int PANEL_HEIGHT = 800;
 	private int FPS = 60;
 	private Thread gameThread;
+	private boolean endBall = false;
 	
 	public Panel(AudioPlayer audioPlayer) throws IOException{
 		this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.setDoubleBuffered(true);
 		this.audioPlayer = audioPlayer;
 		background = ImageIO.read(ResourceLoader.load("sprites/back.png"));
+	}
+
+	public void setEndBallFalse() {
+		endBall = false;
+	}
+	
+	public void setEndBallTrue() {
+		endBall = true;
+	}
+	
+	public boolean getEndBall() {
+		return endBall;
 	}
 	
 	public void startUIThread() {
@@ -133,6 +146,28 @@ public class Panel extends JPanel implements Runnable{
 		}
 	}
 	
+	public void cycleBasesSteal() {
+			teamBat.cheers();
+			for (Player player: teamBat.getAllPlayers()) {;
+				if (player.getBase() > 1) {
+					player.setBase(player.getBase()+1);
+					switch (player.getBase()) {
+						case 5:
+							player.setDestination(Bases.homeCoordsBat);
+							audioPlayer.playCrowd();
+							player.returnBench();;
+							break;
+						case 4:
+							player.setDestination(Bases.thirdCoordsBat);
+							break;
+						case 3:
+							player.setDestination(Bases.secondCoordsBat);
+							break;
+					}
+				}
+			}
+	}
+	
 	public void clearBatter() {
 		teamField.cheers();
 		audioPlayer.playCrowd();
@@ -174,6 +209,18 @@ public class Panel extends JPanel implements Runnable{
 		}
 		drawables.remove(umpire);
 		drawables.add(umpire);
+	}
+
+	public void removeRunner(int i) {
+		for (Player player: teamBat.getAllPlayers()) {;
+			if (player.getBase() == i) {
+				player.returnBench();
+			}
+		}
+	}
+
+	public Team getTeamBat() {
+		return teamBat;		
 	}
 	
 }

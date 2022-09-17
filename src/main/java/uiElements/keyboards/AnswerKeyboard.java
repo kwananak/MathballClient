@@ -19,9 +19,9 @@ public class AnswerKeyboard extends Keyboard {
 	public AnswerKeyboard(Panel panel, Point point, boolean team) throws IOException {
 		super(panel, point);
 		if(team) {			
-			sprite = ImageIO.read(ResourceLoader.load("sprites/redKey.png"));
+			sprite = ImageIO.read(ResourceLoader.load("sprites/keyboards/redKey.png"));
 		} else {
-			sprite = ImageIO.read(ResourceLoader.load("sprites/blueKey.png"));
+			sprite = ImageIO.read(ResourceLoader.load("sprites/keyboards/blueKey.png"));
 		}
 		buttons = new Button[12];
 		buttons[0] = new Button(panel, this, "1", 16, 68, 38, 38);

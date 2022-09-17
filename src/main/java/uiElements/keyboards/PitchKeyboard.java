@@ -20,7 +20,7 @@ public class PitchKeyboard extends Keyboard {
 	ArrayList<BaseThrowButton> baseThrowButtons = new ArrayList<>();
 	
 	public PitchKeyboard(Panel panel, Point point) throws IOException {
-		super(panel, point, "sprites/pitchKey.png");
+		super(panel, point, "sprites/keyboards/pitchKey.png");
 		buttons = new Button[2];
 		buttons[0] = new Button(panel, this, "0", 15, 15, 80, 90);
 		buttons[1] = new Button(panel, this, "4", 110, 15, 80, 90);
@@ -29,13 +29,13 @@ public class PitchKeyboard extends Keyboard {
 		if (panel.isAvailableBasePitch()) {
 			for (Player player: panel.getTeamBat().getAllPlayers()) {
 				if (player.getBase() == 2) {
-					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/firstBaseThrow.png", "1", 300, 400, 90, 80));
+					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/keyboards/firstBaseThrow.png", "1", 300, 400, 90, 80));
 				}
 				if (player.getBase() == 3) {
-					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/secondBaseThrow.png", "2", 460, 510, 80, 90));
+					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/keyboards/secondBaseThrow.png", "2", 460, 510, 80, 90));
 				}
 				if (player.getBase() == 4) {
-					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/thirdBaseThrow.png", "3", 600, 400, 90, 80));
+					baseThrowButtons.add(new BaseThrowButton(panel, this, "sprites/keyboards/thirdBaseThrow.png", "3", 600, 400, 90, 80));
 				}
 			}
 		}

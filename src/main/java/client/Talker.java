@@ -9,6 +9,7 @@ import uiElements.Panel;
 import uiElements.Ball.Ball;
 import uiElements.keyboards.AnswerKeyboard;
 import uiElements.keyboards.InningKeyboard;
+import uiElements.keyboards.MenuKeyboard;
 import uiElements.keyboards.PitchKeyboard;
 
 public class Talker extends Thread {
@@ -26,10 +27,9 @@ public class Talker extends Thread {
 		this.panel = panel;
 		this.socket = socket;
 		this.audioPlayer = audioPlayer; 
-		in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));		
+		this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));		
 	}
 
-	
 	public void run() {
 		System.out.println("Talker started");
 		try {
@@ -39,6 +39,10 @@ public class Talker extends Thread {
 				if (serverResponse.startsWith("command")) {
 					String[] arrResp = serverResponse.split(":");
 					switch (arrResp[1]) {
+						case "menu":
+							Sender.send(new MenuKeyboard(panel), socket, panel);
+							panel.getDrawables().add(panel.getUmpire());
+							break;
 						case "ball":
 							audioPlayer.playPitch();
 							panel.getUmpire().setTalk(" ");

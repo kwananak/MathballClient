@@ -10,7 +10,7 @@ import uiElements.Panel;
 public class InningKeyboard extends Keyboard {
 	
 	public InningKeyboard(Panel panel) throws IOException {
-		super(panel, new Point(315, 360), "sprites/inningKey.png");
+		super(panel, new Point(315, 360), "sprites/keyboards/inningKey.png");
 		buttons = new Button[5];
 		buttons[0] = new Button(panel, this, "1", 10, 15, 60, 60);
 		buttons[1] = new Button(panel, this, "2", 80, 15, 60, 60);

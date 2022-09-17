@@ -53,7 +53,6 @@ public class Panel extends JPanel implements Runnable{
 		gameThread = new Thread(this);
 		audioPlayer.playTheme();
 		drawables.add(jumbotron);
-		drawables.add(umpire);
 		gameThread.start();
 	}
 

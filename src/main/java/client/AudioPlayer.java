@@ -11,7 +11,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class AudioPlayer {
 
-	private Boolean muted = true;
+	private Boolean muted = false;
 	private AudioInputStream ais;
 	private Clip clip;
 	private String theme = "C:\\Users\\kouan\\eclipse-workspace\\client\\src\\main\\resources\\sounds\\theme.wav";

@@ -1,3 +1,5 @@
+// Tous droits réservés, copyright 2022 Dominic Daoust
+
 package client;
 
 import java.net.*;

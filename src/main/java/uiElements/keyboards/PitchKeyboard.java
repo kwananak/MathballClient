@@ -1,17 +1,12 @@
 package uiElements.keyboards;
 
 import java.awt.Graphics2D;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
 import uiElements.Panel;
-import uiElements.ResourceLoader;
 import uiElements.characters.Player;
 
 @SuppressWarnings("serial")
@@ -57,13 +52,13 @@ public class PitchKeyboard extends Keyboard {
 	public void keyReleased(KeyEvent e) {}
 	
 	@Override
-	public void draw(Graphics2D g2D) {		
-		super.draw(g2D);
+	public void draw(Graphics2D g2D) {
 		if (!baseThrowButtons.isEmpty()) {
 			for (BaseThrowButton btb: baseThrowButtons) {
 				g2D.drawImage(btb.image, btb.getX(), btb.getY(), this);
 			}
-		}
+		}		
+		super.draw(g2D);
 	}
 		
 	@Override

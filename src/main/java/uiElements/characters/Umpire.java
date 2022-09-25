@@ -9,9 +9,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import client.ResourceLoader;
 import uiElements.Drawable;
 import uiElements.Panel;
-import uiElements.ResourceLoader;
 
 @SuppressWarnings("serial")
 public class Umpire extends Drawable {

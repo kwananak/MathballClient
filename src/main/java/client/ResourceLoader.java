@@ -1,4 +1,4 @@
-package uiElements;
+package client;
 
 import java.io.InputStream;
 

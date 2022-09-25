@@ -8,9 +8,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import client.ResourceLoader;
 import uiElements.Drawable;
 import uiElements.Panel;
-import uiElements.ResourceLoader;
 
 @SuppressWarnings("serial")
 public class Ball extends Drawable {
@@ -24,8 +24,7 @@ public class Ball extends Drawable {
 	private int plate;
 	
 	public Ball(Panel panel, String string) throws IOException {
-		super(panel, "sprites/ballElements/ball.png");
-		
+		super(panel, "sprites/ballElements/ball.png");	
 		lilBall = ImageIO.read(ResourceLoader.load("sprites/ballElements/lilBall.png"));
 		String[] arrString = string.split(",");
 		this.plate = Integer.valueOf(arrString[2]);

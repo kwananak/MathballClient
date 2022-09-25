@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import client.AudioPlayer;
+import client.ResourceLoader;
+import client.Sounds;
 import uiElements.characters.Player;
 import uiElements.characters.Team;
 import uiElements.characters.Umpire;
@@ -51,7 +53,7 @@ public class Panel extends JPanel implements Runnable{
 	
 	public void startUIThread() {
 		gameThread = new Thread(this);
-		audioPlayer.playTheme();
+		audioPlayer.play(Sounds.THEME);
 		drawables.add(jumbotron);
 		gameThread.start();
 	}
@@ -99,12 +101,12 @@ public class Panel extends JPanel implements Runnable{
 			teamField = teams[0];
 			teamBat = teams[1];
 		}	
-		audioPlayer.playCrowd();
-		teamField.getPlayer(0).setDestination(Bases.mountCoords);
-		teamField.getPlayer(1).setDestination(Bases.homeCoordsField);
-		teamField.getPlayer(2).setDestination(Bases.firstCoordsField);
-		teamField.getPlayer(3).setDestination(Bases.secondCoordsField);
-		teamField.getPlayer(4).setDestination(Bases.thirdCoordsField);		
+		audioPlayer.play(Sounds.CROWD);
+		teamField.getPlayer(0).setDestination(Bases.MOUNT.point);
+		teamField.getPlayer(1).setDestination(Bases.HOME.field);
+		teamField.getPlayer(2).setDestination(Bases.FIRST.field);
+		teamField.getPlayer(3).setDestination(Bases.SECOND.field);
+		teamField.getPlayer(4).setDestination(Bases.THIRD.field);		
 		for (Player player: teamField.getAllPlayers()) {
 			player.setField();
 		}
@@ -112,7 +114,7 @@ public class Panel extends JPanel implements Runnable{
 	
 	public void turnStart() {	
 		availableBasePitch = true;
-		teamBat.getPlayer(teamBat.getBatter()).setDestination(Bases.homeCoordsBat);
+		teamBat.getPlayer(teamBat.getBatter()).setDestination(Bases.HOME.bat);
 		teamBat.getPlayer(teamBat.getBatter()).stopAnimation();
 		teamBat.getPlayer(teamBat.getBatter()).setBase(1);
 	}
@@ -126,18 +128,18 @@ public class Panel extends JPanel implements Runnable{
 					player.setBase(player.getBase()+1);
 					switch (player.getBase()) {
 						case 5:
-							player.setDestination(Bases.homeCoordsBat);
-							audioPlayer.playCrowd();
+							player.setDestination(Bases.HOME.bat);
+							audioPlayer.play(Sounds.CROWD);
 							player.returnBench();;
 							break;
 						case 4:
-							player.setDestination(Bases.thirdCoordsBat);
+							player.setDestination(Bases.THIRD.bat);
 							break;
 						case 3:
-							player.setDestination(Bases.secondCoordsBat);
+							player.setDestination(Bases.SECOND.bat);
 							break;
 						case 2:
-							player.setDestination(Bases.firstCoordsBat);
+							player.setDestination(Bases.FIRST.bat);
 							player.setIdle();
 							teamBat.cycleBatter();
 							break;
@@ -154,15 +156,15 @@ public class Panel extends JPanel implements Runnable{
 					player.setBase(player.getBase()+1);
 					switch (player.getBase()) {
 						case 5:
-							player.setDestination(Bases.homeCoordsBat);
-							audioPlayer.playCrowd();
+							player.setDestination(Bases.HOME.bat);
+							audioPlayer.play(Sounds.CROWD);
 							player.returnBench();;
 							break;
 						case 4:
-							player.setDestination(Bases.thirdCoordsBat);
+							player.setDestination(Bases.THIRD.bat);
 							break;
 						case 3:
-							player.setDestination(Bases.secondCoordsBat);
+							player.setDestination(Bases.SECOND.bat);
 							break;
 					}
 				}
@@ -171,7 +173,7 @@ public class Panel extends JPanel implements Runnable{
 	
 	public void clearBatter() {
 		teamField.cheers();
-		audioPlayer.playCrowd();
+		audioPlayer.play(Sounds.CROWD);
 		teamBat.getPlayer(teamBat.getBatter()).returnBench();
 		teamBat.getPlayer(teamBat.getBatter()).setIdle();
 		teamBat.cycleBatter();
@@ -179,7 +181,7 @@ public class Panel extends JPanel implements Runnable{
 	
 	public void returnBench() {
 		teamField.cheers();
-		audioPlayer.playCrowd();
+		audioPlayer.play(Sounds.CROWD);
 		for (Team team: teams) {
 			team.returnBench();
 		}

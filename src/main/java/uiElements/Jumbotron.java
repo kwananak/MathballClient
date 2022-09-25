@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import client.ResourceLoader;
+
 @SuppressWarnings("serial")
 public class Jumbotron extends Drawable {
 

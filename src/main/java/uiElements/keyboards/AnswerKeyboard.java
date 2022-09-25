@@ -8,8 +8,8 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import client.ResourceLoader;
 import uiElements.Panel;
-import uiElements.ResourceLoader;
 
 @SuppressWarnings("serial")
 public class AnswerKeyboard extends Keyboard {

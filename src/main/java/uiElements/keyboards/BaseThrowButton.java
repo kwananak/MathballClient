@@ -8,8 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import client.ResourceLoader;
 import uiElements.Panel;
-import uiElements.ResourceLoader;
 
 @SuppressWarnings("serial")
 public class BaseThrowButton extends JPanel implements MouseListener {

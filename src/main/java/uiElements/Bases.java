@@ -2,22 +2,26 @@ package uiElements;
 
 import java.awt.Point;
 
-public abstract class Bases {
-
-	final static Point homeCoords = new Point(441, 180);
-	final static Point firstCoords = new Point(156, 339);
-	final static Point secondCoords = new Point(429, 540);
-	final static Point thirdCoords = new Point(699, 360);
-	final static Point mountCoords = new Point(441, 360);
+public enum Bases {
 	
-	final static Point homeCoordsField = new Point((int) homeCoords.getX(), (int) homeCoords.getY() - 30);
-	final static Point firstCoordsField = new Point((int) firstCoords.getX() - 60, (int) firstCoords.getY());
-	final static Point secondCoordsField = new Point((int) secondCoords.getX() - 60, (int) secondCoords.getY());
-	final static Point thirdCoordsField = new Point((int) thirdCoords.getX() - 60, (int) thirdCoords.getY());
+	HOME,
+	FIRST(new Point(156, 339)),
+	SECOND(new Point(429, 540)),
+	THIRD(new Point(699, 360)),
+	MOUNT(new Point(441, 360));
 	
-	public final static Point homeCoordsBat = new Point((int) homeCoords.getX() - 60, (int) homeCoords.getY() + 9);
-	final static Point firstCoordsBat = new Point((int) firstCoords.getX() + 60, (int) firstCoords.getY());
-	final static Point secondCoordsBat = new Point((int) secondCoords.getX() + 60, (int) secondCoords.getY());
-	final static Point thirdCoordsBat = new Point((int) thirdCoords.getX() + 60, (int) thirdCoords.getY());
-
+	final Point point, field, bat;
+	
+	Bases(Point point) {
+		this.point = point;
+		field = new Point((int) point.getX() - 60, (int) point.getY());
+		bat = new Point((int) point.getX() + 60, (int) point.getY());
+	}
+	
+	Bases() {
+		point = new Point(441, 180);
+		field = new Point((int) point.getX(), (int) point.getY() - 30);
+		bat = new Point((int) point.getX() - 60, (int) point.getY());
+	}
+	
 }

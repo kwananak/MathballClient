@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import client.ResourceLoader;
 import uiElements.Drawable;
 import uiElements.Panel;
-import uiElements.ResourceLoader;
 
 @SuppressWarnings("serial")
 public class Player extends Drawable {

@@ -44,7 +44,7 @@ public class Talker extends Thread {
 							panel.getDrawables().add(panel.getUmpire());
 							break;
 						case "ball":
-							audioPlayer.playPitch();
+							audioPlayer.play(Sounds.PITCH);
 							panel.getUmpire().setTalk(" ");
 							panel.getDrawables().add(new Ball(panel, arrResp[2]));
 							break;
@@ -67,8 +67,8 @@ public class Talker extends Thread {
 							panel.getUmpire().setTalk(" ");
 							break;
 						case "cycleBases":
-							audioPlayer.playHit();
-							audioPlayer.playCrowd();
+							audioPlayer.play(Sounds.HIT);
+							audioPlayer.play(Sounds.CROWD);
 							panel.cycleBases(arrResp[2]);
 							panel.getJumbotron().setMainDisplay(arrResp[2]);
 							break;

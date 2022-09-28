@@ -35,7 +35,7 @@ public class Umpire extends Drawable {
 			}
 			g2D.drawImage(bubble.getSubimage(28, 0, 44, 80), (nuX - 15) + ((talk.length() - 1)* 16), getY() - 42, null);
 			g2D.setPaint(Color.black);
-			g2D.setFont(new Font("Fixedsys",Font.BOLD,30));
+			g2D.setFont(new Font("Fixedsys", Font.BOLD, 30));
 			g2D.drawString(talk, nuX, getY());
 		}
 	}

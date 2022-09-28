@@ -19,8 +19,8 @@ public class Ball extends Drawable {
 	private BufferedImage lilBall;
 	private boolean starting = true;
 	private int counter = 30;
-	private final static Point[] bases = {new Point(430, 270), new Point(300, 380), new Point(430, 520), new Point(600, 400)};
-	private final static int[][] deviations = {{33, 60, 33, -10}, {60, 33, -10, 33}, {33, -10, 33, 60}, {-10, 33, 60, 30}};
+	private final Point[] bases = {new Point(430, 270), new Point(300, 380), new Point(430, 520), new Point(600, 400)};
+	private final int[][] deviations = {{33, 60, 33, -10}, {60, 33, -10, 33}, {33, -10, 33, 60}, {-10, 33, 60, 30}};
 	private int plate;
 	
 	public Ball(Panel panel, String string) throws IOException {

@@ -15,7 +15,7 @@ public class Client {
 		Window window = new Window();
 		AudioPlayer audioPlayer = new AudioPlayer();
 		Panel panel = new Panel(audioPlayer);
-		Socket server = new Socket("192.168.1.195", 5565);
+		Socket server = new Socket("localhost", 5565);
 		System.out.println("connected to server");
 		Talker talker = new Talker(server, panel, audioPlayer);
 		

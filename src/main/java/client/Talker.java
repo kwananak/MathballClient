@@ -40,8 +40,11 @@ public class Talker extends Thread {
 					String[] arrResp = serverResponse.split(":");
 					switch (arrResp[1]) {
 						case "menu":
-							Sender.send(new MenuKeyboard(panel), socket, panel);
-							panel.getDrawables().add(panel.getUmpire());
+							if (!arrResp[2].equals(" ")) {
+								Sender.send(new MenuKeyboard(panel, arrResp[2]), socket, panel);
+							} else {
+								Sender.send(new MenuKeyboard(panel), socket, panel);
+							}							
 							break;
 						case "ball":
 							audioPlayer.play(Sounds.PITCH);
@@ -55,6 +58,7 @@ public class Talker extends Thread {
 							answerKeysCoords.setLocation(Sender.send(new AnswerKeyboard(panel, answerKeysCoords, team), socket, panel)); 
 							break;
 						case "inningSender":
+							panel.getDrawables().add(panel.getUmpire());
 							panel.getUmpire().setTalk(arrResp[2]);
 							Sender.send(new InningKeyboard(panel), socket, panel);
 							break;
